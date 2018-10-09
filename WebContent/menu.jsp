@@ -78,7 +78,7 @@
                     <span aria-hidden="true" class="se7en-gear"></span> 系统设置<b class="caret"></b>
                 	</a>
                     <ul class="dropdown-menu">
-                        <li><a href="employee/getAllEmployee" class="">员工管理</a></li>
+                        <li><a href="jsp/systemSettings/manage/index.jsp" class="">员工管理</a></li>
                         <li><a href="emmPosition/getAllEmmPosition" class="">职位管理</a></li>
                         <li><a href="menu/getAllMenu" class="">菜单管理</a></li>
                     </ul>
