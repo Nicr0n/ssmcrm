@@ -21,7 +21,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public List<Employee> selectAllEmployee() {
         List<Employee> result = new ArrayList<>();
-        result = employeeMapper.queryallWithInfo();
+        result = employeeMapper.queryWithInfo();
         return result;
     }
 

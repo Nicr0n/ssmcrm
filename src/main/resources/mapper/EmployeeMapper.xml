@@ -8,9 +8,7 @@
         <id column="EMPLOYEE_ID" jdbcType="INTEGER" property="employeeId"/>
         <result column="EMPLOYEE_NAME" jdbcType="VARCHAR" property="employeeName"/>
         <result column="DEPARTMENT_ID" jdbcType="INTEGER" property="departmentId"/>
-        <result column="DEPARTMENT_NAME" jdbcType="VARCHAR" property="departmentName"/>
         <result column="POSITON_ID" jdbcType="INTEGER" property="positonId"/>
-        <result column="POSITON_NAME" jdbcType="VARCHAR" property="positonName"/>
         <result column="PHONE" jdbcType="VARCHAR" property="phone"/>
         <result column="EMAIL" jdbcType="VARCHAR" property="email"/>
         <result column="STATUS" jdbcType="VARCHAR" property="status"/>
@@ -18,7 +16,30 @@
         <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime"/>
     </resultMap>
-    <select id="queryallWithInfo" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    <resultMap id="AlterResultMap" type="net.wanho.model.Employee">
+        <id column="EMPLOYEE_ID" jdbcType="INTEGER" property="employeeId"/>
+        <result column="EMPLOYEE_NAME" jdbcType="VARCHAR" property="employeeName"/>
+        <result column="DEPARTMENT_ID" jdbcType="INTEGER" property="departmentId"/>
+        <result column="POSITON_ID" jdbcType="INTEGER" property="positonId"/>
+        <result column="PHONE" jdbcType="VARCHAR" property="phone"/>
+        <result column="EMAIL" jdbcType="VARCHAR" property="email"/>
+        <result column="STATUS" jdbcType="VARCHAR" property="status"/>
+        <result column="PARENT_EMPLOYEE_ID" jdbcType="INTEGER" property="parentEmployeeId"/>
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime"/>
+        <association property="department" javaType="net.wanho.model.Department">
+            <id column="DEPARTMENT_ID" jdbcType="INTEGER" property="departmentId"/>
+            <result column="DEPARTMENT_NAME" jdbcType="VARCHAR" property="departmentName"/>
+        </association>
+        <association property="emmPosition" javaType="net.wanho.model.EmmPosition">
+            <id column="POSITON_ID" jdbcType="INTEGER" property="positionId"/>
+            <result column="POSITION_NAME" jdbcType="VARCHAR" property="positionName"/>
+            <result column="POSITION_LEVEL" jdbcType="VARCHAR" property="positionLevel"/>
+            <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
+            <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime"/>
+        </association>
+    </resultMap>
+    <select id="queryWithInfo" parameterType="java.lang.Integer" resultMap="AlterResultMap">
         SELECT e.EMPLOYEE_ID,
                e.EMPLOYEE_NAME,
                e.DEPARTMENT_ID,
@@ -27,12 +48,13 @@
                p.POSITION_NAME,
                e.PHONE,
                e.EMAIL,
-               e.STATUS,
+               e.`STATUS`,
                e.PARENT_EMPLOYEE_ID,
                e.CREATE_TIME,
                e.UPDATE_TIME
-        FROM employee e
-                 LEFT JOIN emm_position p ON e.POSITON_ID = p.POSITION_ID
+        from employee e
                  LEFT JOIN department d ON e.DEPARTMENT_ID = d.DEPARTMENT_ID
+                 LEFT JOIN emm_position p ON e.POSITON_ID = p.POSITION_ID
+        ORDER BY e.EMPLOYEE_ID
     </select>
 </mapper>
