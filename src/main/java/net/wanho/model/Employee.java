@@ -25,10 +25,20 @@ public class Employee {
     private Integer departmentId;
 
     /**
+     * 部门名称
+     */
+    private String departmentName;
+
+    /**
      * 职位编号
      */
     @Column(name = "`POSITON_ID`")
     private Integer positonId;
+
+    /**
+     * 职位名称
+     */
+    private String positionName;
 
     /**
      * 手机号
@@ -244,5 +254,21 @@ public class Employee {
      */
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getDepartmentName() {
+        return departmentName;
+    }
+
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName;
+    }
+
+    public String getPositionName() {
+        return positionName;
+    }
+
+    public void setPositionName(String positionName) {
+        this.positionName = positionName;
     }
 }
