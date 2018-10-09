@@ -71,8 +71,10 @@ public class EmployeeController {
     }
 
     @RequestMapping("/updateEmployeeStatus/{id}")
-    public CrmResult updateEmployeeStatus(@RequestBody Employee employee) {
+    public CrmResult updateEmployeeStatus(@PathVariable("id")Integer id) {
         CrmResult result = new CrmResult();
+        int updatedId = employeeService.updateEmployeeStatus(id);
+        result.setMsg("修改的员工的ID为："+updatedId);
         return result;
     }
 }

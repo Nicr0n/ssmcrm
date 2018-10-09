@@ -39,7 +39,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public int updateEmployeeStatus(Employee employee) {
+    public int updateEmployeeStatus(Integer id) {
+        Employee employee = employeeMapper.selectByPrimaryKey(id);
+        if (employee.getStatus().equals("0")){
+            employee.setStatus("1");
+        }else{
+            employee.setStatus("0");
+        }
         int updatedId;
         updatedId = employeeMapper.updateByPrimaryKeySelective(employee);
         return updatedId;
