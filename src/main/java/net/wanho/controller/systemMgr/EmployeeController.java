@@ -20,6 +20,11 @@ public class EmployeeController {
     @Resource
     private EmployeeService employeeService;
 
+    /**
+     * 查询所有的员工信息（带联表查询）
+     * @param pn 跳转到的页码
+     * @return 员工信息列表
+     */
     @ResponseBody
     @RequestMapping("/getAllEmployee")
     public CrmResult getAllEmployee(@RequestParam(value = "pn",defaultValue = "1")Integer pn) {
@@ -38,6 +43,12 @@ public class EmployeeController {
         System.out.println("getAllEmployee");
         return result;
     }
+
+    /**
+     * 查询指定员工的信息
+     * @param id 要查询的员工的ID
+     * @return 被查询的员工的信息
+     */
     @ResponseBody
     @RequestMapping(value = "/findEmployeeById/{id}",method = RequestMethod.GET)
     public CrmResult findEmployeeById(@PathVariable("id")Integer id) {
@@ -59,23 +70,45 @@ public class EmployeeController {
         return null;
     }
 
+    /**
+     * 添加新的员工
+     * @param employee 被添加的员工的信息
+     * @return 添加消息
+     */
     @RequestMapping("/addEmployee")
-
-    public String addEmployee() {
-        return "redirect:getAllEmployee";
+    @ResponseBody
+    public CrmResult addEmployee(@RequestBody Employee employee) {
+        CrmResult crmResult = new CrmResult();
+        int insertedId = employeeService.addEmployee(employee);
+        crmResult.setMsg("添加的员工的员工号为:"+ insertedId);
+        return crmResult;
     }
 
+    /**
+     * 修改员工信息
+     * @param employee 修改后的员工信息
+     * @return 修改消息
+     */
+    @ResponseBody
     @RequestMapping("/updateEmployee")
-    public String updateEmployee() {
-        return "redirect:getAllEmployee";
+    public CrmResult updateEmployee(@RequestBody Employee employee) {
+        CrmResult crmResult = new CrmResult();
+        int updatedId = employeeService.updateEmployee(employee);
+        crmResult.setMsg("修改的员工ID为："+ updatedId);
+        return  crmResult;
     }
 
+    /**
+     * 修改员工的状态
+     * @param id 被修改的员工的ID
+     * @return 修改信息
+     */
     @ResponseBody
     @RequestMapping("/updateEmployeeStatus/{id}")
     public CrmResult updateEmployeeStatus(@PathVariable("id")Integer id) {
         CrmResult result = new CrmResult();
         int updatedId = employeeService.updateEmployeeStatus(id);
-        result.setMsg("修改的员工的ID为："+id);
+        result.setMsg("修改的员工的ID为："+updatedId);
         return result;
     }
 }

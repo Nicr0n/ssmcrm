@@ -11,4 +11,8 @@ public interface EmployeeService {
     Employee selectEmployeeById(Integer id);
 
     int updateEmployeeStatus(Integer id);
+
+    int updateEmployee(Employee employee);
+
+    int addEmployee(Employee employee);
 }

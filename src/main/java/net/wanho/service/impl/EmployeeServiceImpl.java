@@ -38,6 +38,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employee;
     }
 
+    /**
+     * 修改员工的状态
+     * @param id 被修改的员工的ID
+     * @return 被修改的员工的主键ID
+     */
     @Override
     public int updateEmployeeStatus(Integer id) {
         Employee employee = employeeMapper.selectByPrimaryKey(id);
@@ -49,5 +54,25 @@ public class EmployeeServiceImpl implements EmployeeService {
         int updatedId;
         updatedId = employeeMapper.updateByPrimaryKeySelective(employee);
         return updatedId;
+    }
+
+    /**
+     * 修改员工信息
+     * @param employee 要修改的员工
+     * @return 被修改的员工的ID
+     */
+    @Override
+    public int updateEmployee(Employee employee) {
+        return employeeMapper.updateByPrimaryKeySelective(employee);
+    }
+
+    /**
+     * 新增员工信息
+     * @param employee 新增的员工的信息
+     * @return 新增的员工的ID
+     */
+    @Override
+    public int addEmployee(Employee employee) {
+        return employeeMapper.insertSelective(employee);
     }
 }
