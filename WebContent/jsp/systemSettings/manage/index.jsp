@@ -86,10 +86,13 @@
                         '<td>'+value.positonId+'</td>' +
                         '<td>'+value.phone+'</td>' +
                         '<td>'+value.email+'</td>' +
-                        '<td>'+value.status+'</td>' +
+                        '<td>'+(value.status==0 ? "禁用" : "正常")+'</td>' +
                         '<td>'+value.createTime+'</td>' +
                         '<td>'+value.updateTime+'</td>' +
-                        '<td><button type="button" id="recevorbtn" name="recevorbtn" class="btn btn-success btn-sm" onclick="updateEmployeeStatus('+value.employeeId+')">恢复正常</button></td></tr>'
+                        '<td>'+(value.status==0 ? '<button type="button" id="recevorbtn" name="recevorbtn" class="btn btn-success btn-sm" onclick="updateEmployeeStatus('+value.employeeId+')">恢复正常</button>' +
+                            '<button type="button" id="recevorbtn3" name="recevorbtn3" class="btn btn-info btn-sm" onclick="updateEmployeeDetail('+value.employeeId+')">修改用户信息</button>' :
+                        '<button type="button" id="recevorbtn2" name="recevorbtn2" class="btn btn-danger btn-sm" onclick="updateEmployeeStatus('+value.employeeId+')">禁用账户</button>')
+                        +                 '</td></tr>'
                     $(".table-main").append(str);
                 })
             }
