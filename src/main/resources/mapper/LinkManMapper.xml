@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.wanho.mapper.LinkManMapper">
+  <resultMap id="BaseResultMap" type="net.wanho.model.LinkMan">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="LINK_MAIN_ID" jdbcType="INTEGER" property="linkMainId" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="SEX" jdbcType="VARCHAR" property="sex" />
+    <result column="POSITION" jdbcType="VARCHAR" property="position" />
+    <result column="NICKNAME" jdbcType="VARCHAR" property="nickname" />
+    <result column="PHONENUM" jdbcType="INTEGER" property="phonenum" />
+    <result column="EMAIL" jdbcType="VARCHAR" property="email" />
+    <result column="QQ" jdbcType="INTEGER" property="qq" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="REMARKS" jdbcType="VARCHAR" property="remarks" />
+    <result column="QR_CODE" jdbcType="VARCHAR" property="qrCode" />
+    <result column="CUSTOMER_ID" jdbcType="INTEGER" property="customerId" />
+  </resultMap>
+</mapper>

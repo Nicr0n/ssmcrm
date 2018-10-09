@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.wanho.mapper.LogInMapper">
+  <resultMap id="BaseResultMap" type="net.wanho.model.LogIn">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="USER_ID" jdbcType="INTEGER" property="userId" />
+    <result column="EMPLOYEE_ID" jdbcType="INTEGER" property="employeeId" />
+    <result column="EMM_PASSWORD" jdbcType="VARCHAR" property="emmPassword" />
+  </resultMap>
+  <select id="login" parameterType="net.wanho.model.LogIn">
+  	select * from log_in where EMPLOYEE_ID=#{employeeId} and EMM_PASSWORD=#{emmPassword}
+  </select>
+
+  <update id="updatePassword" parameterType="net.wanho.model.LogIn">
+  update log_in SET EMM_PASSWORD=#{emmPassword} where EMPLOYEE_ID=#{employeeId}
+  </update>
+</mapper>

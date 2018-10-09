@@ -1,0 +1,84 @@
+body {
+	margin: 0;
+	padding: 0;
+	color: #666;
+	background: #253358;
+}
+
+.form_login {
+	max-width: 640px;
+	margin: auto;
+	text-align: center;
+	padding-top: 100px;
+}
+
+.form-group {
+	width: 355px;
+	margin: 0 auto;
+	height: 50px;
+	margin-bottom: 20px;
+}
+
+.form-group .fa {
+	display: block;
+	width: 50px;
+	height: 50px;
+	float: left;
+}
+
+.form-group .form-control {
+	display: block;
+	width: 300px;
+	height: 48px;
+	float: left;
+	border: 1px solid #ccc;
+	padding: 0;
+	margin-left: 0;
+	text-indent: 1em;
+	themeColor: #00a988;
+}
+
+.form-group .form-control:hover {
+	border: 1px solid #0160A0;
+}
+
+.form-group .checkfont {
+	color: #666;
+}
+
+.form-group .btn {
+	width: 350px;
+	height: 50px;
+	background-color: #0160A0;
+	border: 0px;
+	color: #fff;
+	font-size: 14px;
+}
+
+.fa-user {
+	background: url(../images/user.png) no-repeat center;
+}
+
+.fa-key {
+	background: url(../images/pw.png) no-repeat center;
+}
+
+.form_logo {
+	margin-bottom: 60px;
+}
+
+.form_footer {
+	margin-top: 60px;
+	font-size: 12px;
+	color: #5B809A;
+}
+
+h1 {
+	font-size: 80px;
+	color: #0160A0;
+	font-family: "Î¢ÈíÑÅºÚ";
+}
+
+h4 {
+	color: #0160A0;
+}

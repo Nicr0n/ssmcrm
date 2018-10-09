@@ -1,0 +1,121 @@
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<!--suppress MybatisGenerateCustomPluginInspection -->
+<generatorConfiguration>
+    <context id="Mysql" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+        <!--编码格式-->
+        <property name="javaFileEncoding" value="UTF-8"/>
+        <!--配置是否使用通用 Mapper 自带的注释扩展，默认 true-->
+        <!--<property name="useMapperCommentGenerator" value="false"/>-->
+
+        <!--通用mapper插件，可以生成带注解的实体类-->
+        <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
+            <property name="mappers" value="tk.mybatis.mapper.common.Mapper"/>
+            <property name="caseSensitive" value="true"/>
+            <property name="forceAnnotation" value="true"/>
+            <property name="beginningDelimiter" value="`"/>
+            <property name="endingDelimiter" value="`"/>
+        </plugin>
+
+
+        <!--数据库连接信息-->
+        <jdbcConnection
+                driverClass="com.mysql.jdbc.Driver"
+                connectionURL="jdbc:mysql://localhost:3306/cms"
+                userId="root"
+                password="1998222">
+        </jdbcConnection>
+
+        <!--实体类生成位置-->
+        <javaModelGenerator targetPackage="net.wanho.model"
+                            targetProject="D:\ssmcrm\src\main\java">
+        </javaModelGenerator>
+
+        <!--mapper.xml生成位置-->
+        <sqlMapGenerator targetPackage="mapper"
+                         targetProject="D:\ssmcrm\src\main\resources">
+        </sqlMapGenerator>
+
+        <!--mapper接口生成位置-->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="net.wanho.mapper"
+                             targetProject="D:\ssmcrm\src\main\java">
+        </javaClientGenerator>
+        <!--目标表格-->
+        <table tableName="advanced_log">
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>
+        <table tableName="business">
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>
+        <table tableName="log_in">
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>
+        <table tableName="business_source">
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>
+        <table tableName="business_type">
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>
+        <table tableName="comment">
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>
+        <table tableName="customer_source">
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>
+        <table tableName="daily_record">
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>
+        <table tableName="department">
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>
+        <table tableName="emm_position">
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>
+        <table tableName="employee">
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>
+        <table tableName="individual_task">
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>
+        <table tableName="instation_mail">
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>
+        <table tableName="link_man">
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>
+        <table tableName="menu">
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>
+        <table tableName="orders">
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>
+        <table tableName="orders_detail">
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>
+        <table tableName="position_menu_relations">
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>
+        <table tableName="process">
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>
+        <table tableName="product_inventory">
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>
+        <table tableName="product_type">
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>
+        <table tableName="store">
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>
+        <table tableName="task_user_relations">
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>
+        <table tableName="working_field">
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>
+
+
+    </context>
+</generatorConfiguration>

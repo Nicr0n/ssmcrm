@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.wanho.mapper.LogInMapper" >
+  <resultMap id="BaseResultMap" type="net.wanho.model.LogIn" >
+    <id column="USER_ID" property="userId" jdbcType="INTEGER" />
+    <result column="EMPLOYEE_ID" property="employeeId" jdbcType="INTEGER" />
+    <result column="EMM_PASSWORD" property="emmPassword" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    USER_ID, EMPLOYEE_ID, EMM_PASSWORD
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="net.wanho.model.LogInExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from log_in
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from log_in
+    where USER_ID = #{userId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from log_in
+    where USER_ID = #{userId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="net.wanho.model.LogInExample" >
+    delete from log_in
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="net.wanho.model.LogIn" >
+    <selectKey resultType="java.lang.Integer" keyProperty="userId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into log_in (EMPLOYEE_ID, EMM_PASSWORD)
+    values (#{employeeId,jdbcType=INTEGER}, #{emmPassword,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="net.wanho.model.LogIn" >
+    <selectKey resultType="java.lang.Integer" keyProperty="userId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into log_in
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="employeeId != null" >
+        EMPLOYEE_ID,
+      </if>
+      <if test="emmPassword != null" >
+        EMM_PASSWORD,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="employeeId != null" >
+        #{employeeId,jdbcType=INTEGER},
+      </if>
+      <if test="emmPassword != null" >
+        #{emmPassword,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="net.wanho.model.LogInExample" resultType="java.lang.Integer" >
+    select count(*) from log_in
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update log_in
+    <set >
+      <if test="record.userId != null" >
+        USER_ID = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.employeeId != null" >
+        EMPLOYEE_ID = #{record.employeeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.emmPassword != null" >
+        EMM_PASSWORD = #{record.emmPassword,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update log_in
+    set USER_ID = #{record.userId,jdbcType=INTEGER},
+      EMPLOYEE_ID = #{record.employeeId,jdbcType=INTEGER},
+      EMM_PASSWORD = #{record.emmPassword,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="net.wanho.model.LogIn" >
+    update log_in
+    <set >
+      <if test="employeeId != null" >
+        EMPLOYEE_ID = #{employeeId,jdbcType=INTEGER},
+      </if>
+      <if test="emmPassword != null" >
+        EMM_PASSWORD = #{emmPassword,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where USER_ID = #{userId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.wanho.model.LogIn" >
+    update log_in
+    set EMPLOYEE_ID = #{employeeId,jdbcType=INTEGER},
+      EMM_PASSWORD = #{emmPassword,jdbcType=VARCHAR}
+    where USER_ID = #{userId,jdbcType=INTEGER}
+  </update>
+  
+  
+  
+  <select id="login" parameterType="net.wanho.model.LogIn">
+  	select * from log_in where EMPLOYEE_ID=#{employeeId} and EMM_PASSWORD=#{emmPassword}
+  </select>
+  
+  <update id="updatePassword" parameterType="net.wanho.model.LogIn" >
+  update log_in SET EMM_PASSWORD=#{emmPassword} where EMPLOYEE_ID=#{employeeId}
+  </update>
+  
+</mapper>

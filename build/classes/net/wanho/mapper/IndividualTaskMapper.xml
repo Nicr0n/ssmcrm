@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.wanho.mapper.IndividualTaskMapper" >
+  <resultMap id="BaseResultMap" type="net.wanho.model.IndividualTask" >
+    <id column="TASK_ID" property="taskId" jdbcType="INTEGER" />
+    <result column="TOPIC" property="topic" jdbcType="VARCHAR" />
+    <result column="RESPONSIBLE_PERSON" property="responsiblePerson" jdbcType="INTEGER" />
+    <result column="END_TIME" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="PRIORITY" property="priority" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="OPERATOR" property="operator" jdbcType="INTEGER" />
+    <result column="LINK_URL" property="linkUrl" jdbcType="VARCHAR" />
+    <result column="TASK_TYPE" property="taskType" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="net.wanho.model.IndividualTask" extends="BaseResultMap" >
+    <result column="DESCRIPTION" property="description" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    TASK_ID, TOPIC, RESPONSIBLE_PERSON, END_TIME, PRIORITY, STATUS, CREATE_TIME, OPERATOR, 
+    LINK_URL, TASK_TYPE
+  </sql>
+  <sql id="Blob_Column_List" >
+    DESCRIPTION
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="net.wanho.model.IndividualTaskExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from individual_task
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="net.wanho.model.IndividualTaskExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from individual_task
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from individual_task
+    where TASK_ID = #{taskId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from individual_task
+    where TASK_ID = #{taskId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="net.wanho.model.IndividualTaskExample" >
+    delete from individual_task
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="net.wanho.model.IndividualTask" >
+    <selectKey resultType="java.lang.Integer" keyProperty="taskId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into individual_task (TOPIC, RESPONSIBLE_PERSON, END_TIME, 
+      PRIORITY, STATUS, CREATE_TIME, 
+      OPERATOR, LINK_URL, TASK_TYPE, 
+      DESCRIPTION)
+    values (#{topic,jdbcType=VARCHAR}, #{responsiblePerson,jdbcType=INTEGER}, #{endTime,jdbcType=TIMESTAMP}, 
+      #{priority,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{operator,jdbcType=INTEGER}, #{linkUrl,jdbcType=VARCHAR}, #{taskType,jdbcType=VARCHAR}, 
+      #{description,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="net.wanho.model.IndividualTask" >
+    <selectKey resultType="java.lang.Integer" keyProperty="taskId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into individual_task
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="topic != null" >
+        TOPIC,
+      </if>
+      <if test="responsiblePerson != null" >
+        RESPONSIBLE_PERSON,
+      </if>
+      <if test="endTime != null" >
+        END_TIME,
+      </if>
+      <if test="priority != null" >
+        PRIORITY,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="operator != null" >
+        OPERATOR,
+      </if>
+      <if test="linkUrl != null" >
+        LINK_URL,
+      </if>
+      <if test="taskType != null" >
+        TASK_TYPE,
+      </if>
+      <if test="description != null" >
+        DESCRIPTION,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="topic != null" >
+        #{topic,jdbcType=VARCHAR},
+      </if>
+      <if test="responsiblePerson != null" >
+        #{responsiblePerson,jdbcType=INTEGER},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="priority != null" >
+        #{priority,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=INTEGER},
+      </if>
+      <if test="linkUrl != null" >
+        #{linkUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="taskType != null" >
+        #{taskType,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="net.wanho.model.IndividualTaskExample" resultType="java.lang.Integer" >
+    select count(*) from individual_task
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update individual_task
+    <set >
+      <if test="record.taskId != null" >
+        TASK_ID = #{record.taskId,jdbcType=INTEGER},
+      </if>
+      <if test="record.topic != null" >
+        TOPIC = #{record.topic,jdbcType=VARCHAR},
+      </if>
+      <if test="record.responsiblePerson != null" >
+        RESPONSIBLE_PERSON = #{record.responsiblePerson,jdbcType=INTEGER},
+      </if>
+      <if test="record.endTime != null" >
+        END_TIME = #{record.endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.priority != null" >
+        PRIORITY = #{record.priority,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        STATUS = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.operator != null" >
+        OPERATOR = #{record.operator,jdbcType=INTEGER},
+      </if>
+      <if test="record.linkUrl != null" >
+        LINK_URL = #{record.linkUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taskType != null" >
+        TASK_TYPE = #{record.taskType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.description != null" >
+        DESCRIPTION = #{record.description,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update individual_task
+    set TASK_ID = #{record.taskId,jdbcType=INTEGER},
+      TOPIC = #{record.topic,jdbcType=VARCHAR},
+      RESPONSIBLE_PERSON = #{record.responsiblePerson,jdbcType=INTEGER},
+      END_TIME = #{record.endTime,jdbcType=TIMESTAMP},
+      PRIORITY = #{record.priority,jdbcType=VARCHAR},
+      STATUS = #{record.status,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      OPERATOR = #{record.operator,jdbcType=INTEGER},
+      LINK_URL = #{record.linkUrl,jdbcType=VARCHAR},
+      TASK_TYPE = #{record.taskType,jdbcType=VARCHAR},
+      DESCRIPTION = #{record.description,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update individual_task
+    set TASK_ID = #{record.taskId,jdbcType=INTEGER},
+      TOPIC = #{record.topic,jdbcType=VARCHAR},
+      RESPONSIBLE_PERSON = #{record.responsiblePerson,jdbcType=INTEGER},
+      END_TIME = #{record.endTime,jdbcType=TIMESTAMP},
+      PRIORITY = #{record.priority,jdbcType=VARCHAR},
+      STATUS = #{record.status,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      OPERATOR = #{record.operator,jdbcType=INTEGER},
+      LINK_URL = #{record.linkUrl,jdbcType=VARCHAR},
+      TASK_TYPE = #{record.taskType,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="net.wanho.model.IndividualTask" >
+    update individual_task
+    <set >
+      <if test="topic != null" >
+        TOPIC = #{topic,jdbcType=VARCHAR},
+      </if>
+      <if test="responsiblePerson != null" >
+        RESPONSIBLE_PERSON = #{responsiblePerson,jdbcType=INTEGER},
+      </if>
+      <if test="endTime != null" >
+        END_TIME = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="priority != null" >
+        PRIORITY = #{priority,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operator != null" >
+        OPERATOR = #{operator,jdbcType=INTEGER},
+      </if>
+      <if test="linkUrl != null" >
+        LINK_URL = #{linkUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="taskType != null" >
+        TASK_TYPE = #{taskType,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        DESCRIPTION = #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where TASK_ID = #{taskId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="net.wanho.model.IndividualTask" >
+    update individual_task
+    set TOPIC = #{topic,jdbcType=VARCHAR},
+      RESPONSIBLE_PERSON = #{responsiblePerson,jdbcType=INTEGER},
+      END_TIME = #{endTime,jdbcType=TIMESTAMP},
+      PRIORITY = #{priority,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      OPERATOR = #{operator,jdbcType=INTEGER},
+      LINK_URL = #{linkUrl,jdbcType=VARCHAR},
+      TASK_TYPE = #{taskType,jdbcType=VARCHAR},
+      DESCRIPTION = #{description,jdbcType=LONGVARCHAR}
+    where TASK_ID = #{taskId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.wanho.model.IndividualTask" >
+    update individual_task
+    set TOPIC = #{topic,jdbcType=VARCHAR},
+      RESPONSIBLE_PERSON = #{responsiblePerson,jdbcType=INTEGER},
+      END_TIME = #{endTime,jdbcType=TIMESTAMP},
+      PRIORITY = #{priority,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      OPERATOR = #{operator,jdbcType=INTEGER},
+      LINK_URL = #{linkUrl,jdbcType=VARCHAR},
+      TASK_TYPE = #{taskType,jdbcType=VARCHAR}
+    where TASK_ID = #{taskId,jdbcType=INTEGER}
+  </update>
+</mapper>

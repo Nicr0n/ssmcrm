@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.wanho.mapper.BusinessMapper">
+  <resultMap id="BaseResultMap" type="net.wanho.model.Business">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="BUSINESS_ID" jdbcType="INTEGER" property="businessId" />
+    <result column="CUSTOMER_ID" jdbcType="INTEGER" property="customerId" />
+    <result column="LINK_MAIN_ID" jdbcType="INTEGER" property="linkMainId" />
+    <result column="BUSINESS_NAME" jdbcType="VARCHAR" property="businessName" />
+    <result column="BUSINESS_TYPE_ID" jdbcType="INTEGER" property="businessTypeId" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="BUSINESS_SOURCE_ID" jdbcType="INTEGER" property="businessSourceId" />
+    <result column="PERSALE_PRICE" jdbcType="DECIMAL" property="persalePrice" />
+    <result column="PROBABILITY" jdbcType="DECIMAL" property="probability" />
+    <result column="VISIT_TIME" jdbcType="TIMESTAMP" property="visitTime" />
+    <result column="VISIT_CONTENT" jdbcType="VARCHAR" property="visitContent" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="EMPLOYEE_ID" jdbcType="INTEGER" property="employeeId" />
+  </resultMap>
+</mapper>

@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.wanho.mapper.BusinessMapper" >
+  <resultMap id="BaseResultMap" type="net.wanho.model.Business" >
+    <id column="BUSINESS_ID" property="businessId" jdbcType="INTEGER" />
+    <result column="CUSTOMER_ID" property="customerId" jdbcType="INTEGER" />
+    <result column="LINK_MAIN_ID" property="linkMainId" jdbcType="INTEGER" />
+    <result column="BUSINESS_NAME" property="businessName" jdbcType="VARCHAR" />
+    <result column="BUSINESS_TYPE_ID" property="businessTypeId" jdbcType="INTEGER" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="BUSINESS_SOURCE_ID" property="businessSourceId" jdbcType="INTEGER" />
+    <result column="PERSALE_PRICE" property="persalePrice" jdbcType="DECIMAL" />
+    <result column="PROBABILITY" property="probability" jdbcType="DECIMAL" />
+    <result column="VISIT_TIME" property="visitTime" jdbcType="TIMESTAMP" />
+    <result column="VISIT_CONTENT" property="visitContent" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="EMPLOYEE_ID" property="employeeId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    BUSINESS_ID, CUSTOMER_ID, LINK_MAIN_ID, BUSINESS_NAME, BUSINESS_TYPE_ID, STATUS, 
+    BUSINESS_SOURCE_ID, PERSALE_PRICE, PROBABILITY, VISIT_TIME, VISIT_CONTENT, UPDATE_TIME, 
+    EMPLOYEE_ID
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="net.wanho.model.BusinessExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from business
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from business
+    where BUSINESS_ID = #{businessId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from business
+    where BUSINESS_ID = #{businessId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="net.wanho.model.BusinessExample" >
+    delete from business
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="net.wanho.model.Business" >
+    <selectKey resultType="java.lang.Integer" keyProperty="businessId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into business (CUSTOMER_ID, LINK_MAIN_ID, BUSINESS_NAME, 
+      BUSINESS_TYPE_ID, STATUS, BUSINESS_SOURCE_ID, 
+      PERSALE_PRICE, PROBABILITY, VISIT_TIME, 
+      VISIT_CONTENT, UPDATE_TIME, EMPLOYEE_ID
+      )
+    values (#{customerId,jdbcType=INTEGER}, #{linkMainId,jdbcType=INTEGER}, #{businessName,jdbcType=VARCHAR}, 
+      #{businessTypeId,jdbcType=INTEGER}, #{status,jdbcType=VARCHAR}, #{businessSourceId,jdbcType=INTEGER}, 
+      #{persalePrice,jdbcType=DECIMAL}, #{probability,jdbcType=DECIMAL}, #{visitTime,jdbcType=TIMESTAMP}, 
+      #{visitContent,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{employeeId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="net.wanho.model.Business" >
+    <selectKey resultType="java.lang.Integer" keyProperty="businessId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into business
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="customerId != null" >
+        CUSTOMER_ID,
+      </if>
+      <if test="linkMainId != null" >
+        LINK_MAIN_ID,
+      </if>
+      <if test="businessName != null" >
+        BUSINESS_NAME,
+      </if>
+      <if test="businessTypeId != null" >
+        BUSINESS_TYPE_ID,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="businessSourceId != null" >
+        BUSINESS_SOURCE_ID,
+      </if>
+      <if test="persalePrice != null" >
+        PERSALE_PRICE,
+      </if>
+      <if test="probability != null" >
+        PROBABILITY,
+      </if>
+      <if test="visitTime != null" >
+        VISIT_TIME,
+      </if>
+      <if test="visitContent != null" >
+        VISIT_CONTENT,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="employeeId != null" >
+        EMPLOYEE_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="customerId != null" >
+        #{customerId,jdbcType=INTEGER},
+      </if>
+      <if test="linkMainId != null" >
+        #{linkMainId,jdbcType=INTEGER},
+      </if>
+      <if test="businessName != null" >
+        #{businessName,jdbcType=VARCHAR},
+      </if>
+      <if test="businessTypeId != null" >
+        #{businessTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="businessSourceId != null" >
+        #{businessSourceId,jdbcType=INTEGER},
+      </if>
+      <if test="persalePrice != null" >
+        #{persalePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="probability != null" >
+        #{probability,jdbcType=DECIMAL},
+      </if>
+      <if test="visitTime != null" >
+        #{visitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="visitContent != null" >
+        #{visitContent,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="employeeId != null" >
+        #{employeeId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="net.wanho.model.BusinessExample" resultType="java.lang.Integer" >
+    select count(*) from business
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update business
+    <set >
+      <if test="record.businessId != null" >
+        BUSINESS_ID = #{record.businessId,jdbcType=INTEGER},
+      </if>
+      <if test="record.customerId != null" >
+        CUSTOMER_ID = #{record.customerId,jdbcType=INTEGER},
+      </if>
+      <if test="record.linkMainId != null" >
+        LINK_MAIN_ID = #{record.linkMainId,jdbcType=INTEGER},
+      </if>
+      <if test="record.businessName != null" >
+        BUSINESS_NAME = #{record.businessName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.businessTypeId != null" >
+        BUSINESS_TYPE_ID = #{record.businessTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null" >
+        STATUS = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.businessSourceId != null" >
+        BUSINESS_SOURCE_ID = #{record.businessSourceId,jdbcType=INTEGER},
+      </if>
+      <if test="record.persalePrice != null" >
+        PERSALE_PRICE = #{record.persalePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.probability != null" >
+        PROBABILITY = #{record.probability,jdbcType=DECIMAL},
+      </if>
+      <if test="record.visitTime != null" >
+        VISIT_TIME = #{record.visitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.visitContent != null" >
+        VISIT_CONTENT = #{record.visitContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null" >
+        UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.employeeId != null" >
+        EMPLOYEE_ID = #{record.employeeId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update business
+    set BUSINESS_ID = #{record.businessId,jdbcType=INTEGER},
+      CUSTOMER_ID = #{record.customerId,jdbcType=INTEGER},
+      LINK_MAIN_ID = #{record.linkMainId,jdbcType=INTEGER},
+      BUSINESS_NAME = #{record.businessName,jdbcType=VARCHAR},
+      BUSINESS_TYPE_ID = #{record.businessTypeId,jdbcType=INTEGER},
+      STATUS = #{record.status,jdbcType=VARCHAR},
+      BUSINESS_SOURCE_ID = #{record.businessSourceId,jdbcType=INTEGER},
+      PERSALE_PRICE = #{record.persalePrice,jdbcType=DECIMAL},
+      PROBABILITY = #{record.probability,jdbcType=DECIMAL},
+      VISIT_TIME = #{record.visitTime,jdbcType=TIMESTAMP},
+      VISIT_CONTENT = #{record.visitContent,jdbcType=VARCHAR},
+      UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      EMPLOYEE_ID = #{record.employeeId,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="net.wanho.model.Business" >
+    update business
+    <set >
+      <if test="customerId != null" >
+        CUSTOMER_ID = #{customerId,jdbcType=INTEGER},
+      </if>
+      <if test="linkMainId != null" >
+        LINK_MAIN_ID = #{linkMainId,jdbcType=INTEGER},
+      </if>
+      <if test="businessName != null" >
+        BUSINESS_NAME = #{businessName,jdbcType=VARCHAR},
+      </if>
+      <if test="businessTypeId != null" >
+        BUSINESS_TYPE_ID = #{businessTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="businessSourceId != null" >
+        BUSINESS_SOURCE_ID = #{businessSourceId,jdbcType=INTEGER},
+      </if>
+      <if test="persalePrice != null" >
+        PERSALE_PRICE = #{persalePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="probability != null" >
+        PROBABILITY = #{probability,jdbcType=DECIMAL},
+      </if>
+      <if test="visitTime != null" >
+        VISIT_TIME = #{visitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="visitContent != null" >
+        VISIT_CONTENT = #{visitContent,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="employeeId != null" >
+        EMPLOYEE_ID = #{employeeId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where BUSINESS_ID = #{businessId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.wanho.model.Business" >
+    update business
+    set CUSTOMER_ID = #{customerId,jdbcType=INTEGER},
+      LINK_MAIN_ID = #{linkMainId,jdbcType=INTEGER},
+      BUSINESS_NAME = #{businessName,jdbcType=VARCHAR},
+      BUSINESS_TYPE_ID = #{businessTypeId,jdbcType=INTEGER},
+      STATUS = #{status,jdbcType=VARCHAR},
+      BUSINESS_SOURCE_ID = #{businessSourceId,jdbcType=INTEGER},
+      PERSALE_PRICE = #{persalePrice,jdbcType=DECIMAL},
+      PROBABILITY = #{probability,jdbcType=DECIMAL},
+      VISIT_TIME = #{visitTime,jdbcType=TIMESTAMP},
+      VISIT_CONTENT = #{visitContent,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      EMPLOYEE_ID = #{employeeId,jdbcType=INTEGER}
+    where BUSINESS_ID = #{businessId,jdbcType=INTEGER}
+  </update>
+</mapper>

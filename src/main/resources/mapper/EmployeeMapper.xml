@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.wanho.mapper.EmployeeMapper">
+  <resultMap id="BaseResultMap" type="net.wanho.model.Employee">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="EMPLOYEE_ID" jdbcType="INTEGER" property="employeeId" />
+    <result column="EMPLOYEE_NAME" jdbcType="VARCHAR" property="employeeName" />
+    <result column="DEPARTMENT_ID" jdbcType="INTEGER" property="departmentId" />
+    <result column="POSITON_ID" jdbcType="INTEGER" property="positonId" />
+    <result column="PHONE" jdbcType="VARCHAR" property="phone" />
+    <result column="EMAIL" jdbcType="VARCHAR" property="email" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="PARENT_EMPLOYEE_ID" jdbcType="INTEGER" property="parentEmployeeId" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+</mapper>

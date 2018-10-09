@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.wanho.mapper.BusinessTypeMapper" >
+  <resultMap id="BaseResultMap" type="net.wanho.model.BusinessType" >
+    <result column="TYPE_ID" property="typeId" jdbcType="INTEGER" />
+    <result column="TYPE_NAME" property="typeName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    TYPE_ID, TYPE_NAME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="net.wanho.model.BusinessTypeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from business_type
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="net.wanho.model.BusinessTypeExample" >
+    delete from business_type
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="net.wanho.model.BusinessType" >
+    <selectKey resultType="java.lang.Integer" keyProperty="typeId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into business_type (TYPE_NAME)
+    values (#{typeName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="net.wanho.model.BusinessType" >
+    <selectKey resultType="java.lang.Integer" keyProperty="typeId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into business_type
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="typeName != null" >
+        TYPE_NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="typeName != null" >
+        #{typeName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="net.wanho.model.BusinessTypeExample" resultType="java.lang.Integer" >
+    select count(*) from business_type
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update business_type
+    <set >
+      <if test="record.typeId != null" >
+        TYPE_ID = #{record.typeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.typeName != null" >
+        TYPE_NAME = #{record.typeName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update business_type
+    set TYPE_ID = #{record.typeId,jdbcType=INTEGER},
+      TYPE_NAME = #{record.typeName,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

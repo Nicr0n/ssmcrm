@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.wanho.mapper.OrdersDetailMapper" >
+  <resultMap id="BaseResultMap" type="net.wanho.model.OrdersDetail" >
+    <id column="DETAIL_ID" property="detailId" jdbcType="INTEGER" />
+    <result column="ORDER_ID" property="orderId" jdbcType="INTEGER" />
+    <result column="STORE_ID" property="storeId" jdbcType="INTEGER" />
+    <result column="PRODUCT_ID" property="productId" jdbcType="INTEGER" />
+    <result column="BUY_NUMS" property="buyNums" jdbcType="INTEGER" />
+    <result column="REAL_PRICES" property="realPrices" jdbcType="DECIMAL" />
+    <result column="REAL_TOTALPRICE" property="realTotalprice" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    DETAIL_ID, ORDER_ID, STORE_ID, PRODUCT_ID, BUY_NUMS, REAL_PRICES, REAL_TOTALPRICE
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="net.wanho.model.OrdersDetailExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from orders_detail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from orders_detail
+    where DETAIL_ID = #{detailId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from orders_detail
+    where DETAIL_ID = #{detailId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="net.wanho.model.OrdersDetailExample" >
+    delete from orders_detail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="net.wanho.model.OrdersDetail" >
+    <selectKey resultType="java.lang.Integer" keyProperty="detailId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into orders_detail (ORDER_ID, STORE_ID, PRODUCT_ID, 
+      BUY_NUMS, REAL_PRICES, REAL_TOTALPRICE
+      )
+    values (#{orderId,jdbcType=INTEGER}, #{storeId,jdbcType=INTEGER}, #{productId,jdbcType=INTEGER}, 
+      #{buyNums,jdbcType=INTEGER}, #{realPrices,jdbcType=DECIMAL}, #{realTotalprice,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="net.wanho.model.OrdersDetail" >
+    <selectKey resultType="java.lang.Integer" keyProperty="detailId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into orders_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        ORDER_ID,
+      </if>
+      <if test="storeId != null" >
+        STORE_ID,
+      </if>
+      <if test="productId != null" >
+        PRODUCT_ID,
+      </if>
+      <if test="buyNums != null" >
+        BUY_NUMS,
+      </if>
+      <if test="realPrices != null" >
+        REAL_PRICES,
+      </if>
+      <if test="realTotalprice != null" >
+        REAL_TOTALPRICE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="storeId != null" >
+        #{storeId,jdbcType=INTEGER},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="buyNums != null" >
+        #{buyNums,jdbcType=INTEGER},
+      </if>
+      <if test="realPrices != null" >
+        #{realPrices,jdbcType=DECIMAL},
+      </if>
+      <if test="realTotalprice != null" >
+        #{realTotalprice,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="net.wanho.model.OrdersDetailExample" resultType="java.lang.Integer" >
+    select count(*) from orders_detail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update orders_detail
+    <set >
+      <if test="record.detailId != null" >
+        DETAIL_ID = #{record.detailId,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderId != null" >
+        ORDER_ID = #{record.orderId,jdbcType=INTEGER},
+      </if>
+      <if test="record.storeId != null" >
+        STORE_ID = #{record.storeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.productId != null" >
+        PRODUCT_ID = #{record.productId,jdbcType=INTEGER},
+      </if>
+      <if test="record.buyNums != null" >
+        BUY_NUMS = #{record.buyNums,jdbcType=INTEGER},
+      </if>
+      <if test="record.realPrices != null" >
+        REAL_PRICES = #{record.realPrices,jdbcType=DECIMAL},
+      </if>
+      <if test="record.realTotalprice != null" >
+        REAL_TOTALPRICE = #{record.realTotalprice,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update orders_detail
+    set DETAIL_ID = #{record.detailId,jdbcType=INTEGER},
+      ORDER_ID = #{record.orderId,jdbcType=INTEGER},
+      STORE_ID = #{record.storeId,jdbcType=INTEGER},
+      PRODUCT_ID = #{record.productId,jdbcType=INTEGER},
+      BUY_NUMS = #{record.buyNums,jdbcType=INTEGER},
+      REAL_PRICES = #{record.realPrices,jdbcType=DECIMAL},
+      REAL_TOTALPRICE = #{record.realTotalprice,jdbcType=DECIMAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="net.wanho.model.OrdersDetail" >
+    update orders_detail
+    <set >
+      <if test="orderId != null" >
+        ORDER_ID = #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="storeId != null" >
+        STORE_ID = #{storeId,jdbcType=INTEGER},
+      </if>
+      <if test="productId != null" >
+        PRODUCT_ID = #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="buyNums != null" >
+        BUY_NUMS = #{buyNums,jdbcType=INTEGER},
+      </if>
+      <if test="realPrices != null" >
+        REAL_PRICES = #{realPrices,jdbcType=DECIMAL},
+      </if>
+      <if test="realTotalprice != null" >
+        REAL_TOTALPRICE = #{realTotalprice,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where DETAIL_ID = #{detailId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.wanho.model.OrdersDetail" >
+    update orders_detail
+    set ORDER_ID = #{orderId,jdbcType=INTEGER},
+      STORE_ID = #{storeId,jdbcType=INTEGER},
+      PRODUCT_ID = #{productId,jdbcType=INTEGER},
+      BUY_NUMS = #{buyNums,jdbcType=INTEGER},
+      REAL_PRICES = #{realPrices,jdbcType=DECIMAL},
+      REAL_TOTALPRICE = #{realTotalprice,jdbcType=DECIMAL}
+    where DETAIL_ID = #{detailId,jdbcType=INTEGER}
+  </update>
+</mapper>

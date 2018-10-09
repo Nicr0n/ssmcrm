@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.wanho.mapper.ProductInventoryMapper">
+  <resultMap id="BaseResultMap" type="net.wanho.model.ProductInventory">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="INVENTORY_ID" jdbcType="INTEGER" property="inventoryId" />
+    <result column="PRODUCT_ID" jdbcType="INTEGER" property="productId" />
+    <result column="STORE_ID" jdbcType="INTEGER" property="storeId" />
+    <result column="INVENTORY" jdbcType="DECIMAL" property="inventory" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+</mapper>

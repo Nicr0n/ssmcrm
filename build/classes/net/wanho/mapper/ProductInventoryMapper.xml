@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.wanho.mapper.ProductInventoryMapper" >
+  <resultMap id="BaseResultMap" type="net.wanho.model.ProductInventory" >
+    <id column="INVENTORY_ID" property="inventoryId" jdbcType="INTEGER" />
+    <result column="PRODUCT_ID" property="productId" jdbcType="INTEGER" />
+    <result column="STORE_ID" property="storeId" jdbcType="INTEGER" />
+    <result column="INVENTORY" property="inventory" jdbcType="DECIMAL" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    INVENTORY_ID, PRODUCT_ID, STORE_ID, INVENTORY, UPDATE_TIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="net.wanho.model.ProductInventoryExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from product_inventory
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from product_inventory
+    where INVENTORY_ID = #{inventoryId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from product_inventory
+    where INVENTORY_ID = #{inventoryId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="net.wanho.model.ProductInventoryExample" >
+    delete from product_inventory
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="net.wanho.model.ProductInventory" >
+    <selectKey resultType="java.lang.Integer" keyProperty="inventoryId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into product_inventory (PRODUCT_ID, STORE_ID, INVENTORY, 
+      UPDATE_TIME)
+    values (#{productId,jdbcType=INTEGER}, #{storeId,jdbcType=INTEGER}, #{inventory,jdbcType=DECIMAL}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="net.wanho.model.ProductInventory" >
+    <selectKey resultType="java.lang.Integer" keyProperty="inventoryId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into product_inventory
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="productId != null" >
+        PRODUCT_ID,
+      </if>
+      <if test="storeId != null" >
+        STORE_ID,
+      </if>
+      <if test="inventory != null" >
+        INVENTORY,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="productId != null" >
+        #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="storeId != null" >
+        #{storeId,jdbcType=INTEGER},
+      </if>
+      <if test="inventory != null" >
+        #{inventory,jdbcType=DECIMAL},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="net.wanho.model.ProductInventoryExample" resultType="java.lang.Integer" >
+    select count(*) from product_inventory
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update product_inventory
+    <set >
+      <if test="record.inventoryId != null" >
+        INVENTORY_ID = #{record.inventoryId,jdbcType=INTEGER},
+      </if>
+      <if test="record.productId != null" >
+        PRODUCT_ID = #{record.productId,jdbcType=INTEGER},
+      </if>
+      <if test="record.storeId != null" >
+        STORE_ID = #{record.storeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.inventory != null" >
+        INVENTORY = #{record.inventory,jdbcType=DECIMAL},
+      </if>
+      <if test="record.updateTime != null" >
+        UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update product_inventory
+    set INVENTORY_ID = #{record.inventoryId,jdbcType=INTEGER},
+      PRODUCT_ID = #{record.productId,jdbcType=INTEGER},
+      STORE_ID = #{record.storeId,jdbcType=INTEGER},
+      INVENTORY = #{record.inventory,jdbcType=DECIMAL},
+      UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="net.wanho.model.ProductInventory" >
+    update product_inventory
+    <set >
+      <if test="productId != null" >
+        PRODUCT_ID = #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="storeId != null" >
+        STORE_ID = #{storeId,jdbcType=INTEGER},
+      </if>
+      <if test="inventory != null" >
+        INVENTORY = #{inventory,jdbcType=DECIMAL},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where INVENTORY_ID = #{inventoryId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.wanho.model.ProductInventory" >
+    update product_inventory
+    set PRODUCT_ID = #{productId,jdbcType=INTEGER},
+      STORE_ID = #{storeId,jdbcType=INTEGER},
+      INVENTORY = #{inventory,jdbcType=DECIMAL},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+    where INVENTORY_ID = #{inventoryId,jdbcType=INTEGER}
+  </update>
+</mapper>

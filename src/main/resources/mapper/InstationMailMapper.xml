@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.wanho.mapper.InstationMailMapper">
+  <resultMap id="BaseResultMap" type="net.wanho.model.InstationMail">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="MAIL_ID" jdbcType="INTEGER" property="mailId" />
+    <result column="SENDER_ID" jdbcType="INTEGER" property="senderId" />
+    <result column="RECEIVER_ID" jdbcType="INTEGER" property="receiverId" />
+    <result column="THEME" jdbcType="VARCHAR" property="theme" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="CONTENT" jdbcType="VARCHAR" property="content" />
+  </resultMap>
+</mapper>

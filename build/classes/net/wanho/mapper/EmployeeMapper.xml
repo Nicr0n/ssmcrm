@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.wanho.mapper.EmployeeMapper" >
+  <resultMap id="BaseResultMap" type="net.wanho.model.Employee" >
+    <id column="EMPLOYEE_ID" property="employeeId" jdbcType="INTEGER" />
+    <result column="EMPLOYEE_NAME" property="employeeName" jdbcType="VARCHAR" />
+    <result column="DEPARTMENT_ID" property="departmentId" jdbcType="INTEGER" />
+    <result column="POSITON_ID" property="positonId" jdbcType="INTEGER" />
+    <result column="PHONE" property="phone" jdbcType="VARCHAR" />
+    <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="PARENT_EMPLOYEE_ID" property="parentEmployeeId" jdbcType="INTEGER" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    EMPLOYEE_ID, EMPLOYEE_NAME, DEPARTMENT_ID, POSITON_ID, PHONE, EMAIL, STATUS, PARENT_EMPLOYEE_ID, 
+    CREATE_TIME, UPDATE_TIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="net.wanho.model.EmployeeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from employee
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from employee
+    where EMPLOYEE_ID = #{employeeId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from employee
+    where EMPLOYEE_ID = #{employeeId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="net.wanho.model.EmployeeExample" >
+    delete from employee
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="net.wanho.model.Employee" >
+    <selectKey resultType="java.lang.Integer" keyProperty="employeeId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into employee (EMPLOYEE_NAME, DEPARTMENT_ID, POSITON_ID, 
+      PHONE, EMAIL, STATUS, 
+      PARENT_EMPLOYEE_ID, CREATE_TIME, UPDATE_TIME
+      )
+    values (#{employeeName,jdbcType=VARCHAR}, #{departmentId,jdbcType=INTEGER}, #{positonId,jdbcType=INTEGER}, 
+      #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{parentEmployeeId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="net.wanho.model.Employee" >
+    <selectKey resultType="java.lang.Integer" keyProperty="employeeId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into employee
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="employeeName != null" >
+        EMPLOYEE_NAME,
+      </if>
+      <if test="departmentId != null" >
+        DEPARTMENT_ID,
+      </if>
+      <if test="positonId != null" >
+        POSITON_ID,
+      </if>
+      <if test="phone != null" >
+        PHONE,
+      </if>
+      <if test="email != null" >
+        EMAIL,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="parentEmployeeId != null" >
+        PARENT_EMPLOYEE_ID,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="employeeName != null" >
+        #{employeeName,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentId != null" >
+        #{departmentId,jdbcType=INTEGER},
+      </if>
+      <if test="positonId != null" >
+        #{positonId,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="parentEmployeeId != null" >
+        #{parentEmployeeId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="net.wanho.model.EmployeeExample" resultType="java.lang.Integer" >
+    select count(*) from employee
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update employee
+    <set >
+      <if test="record.employeeId != null" >
+        EMPLOYEE_ID = #{record.employeeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.employeeName != null" >
+        EMPLOYEE_NAME = #{record.employeeName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.departmentId != null" >
+        DEPARTMENT_ID = #{record.departmentId,jdbcType=INTEGER},
+      </if>
+      <if test="record.positonId != null" >
+        POSITON_ID = #{record.positonId,jdbcType=INTEGER},
+      </if>
+      <if test="record.phone != null" >
+        PHONE = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null" >
+        EMAIL = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        STATUS = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parentEmployeeId != null" >
+        PARENT_EMPLOYEE_ID = #{record.parentEmployeeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null" >
+        UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update employee
+    set EMPLOYEE_ID = #{record.employeeId,jdbcType=INTEGER},
+      EMPLOYEE_NAME = #{record.employeeName,jdbcType=VARCHAR},
+      DEPARTMENT_ID = #{record.departmentId,jdbcType=INTEGER},
+      POSITON_ID = #{record.positonId,jdbcType=INTEGER},
+      PHONE = #{record.phone,jdbcType=VARCHAR},
+      EMAIL = #{record.email,jdbcType=VARCHAR},
+      STATUS = #{record.status,jdbcType=VARCHAR},
+      PARENT_EMPLOYEE_ID = #{record.parentEmployeeId,jdbcType=INTEGER},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="net.wanho.model.Employee" >
+    update employee
+    <set >
+      <if test="employeeName != null" >
+        EMPLOYEE_NAME = #{employeeName,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentId != null" >
+        DEPARTMENT_ID = #{departmentId,jdbcType=INTEGER},
+      </if>
+      <if test="positonId != null" >
+        POSITON_ID = #{positonId,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null" >
+        PHONE = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        EMAIL = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="parentEmployeeId != null" >
+        PARENT_EMPLOYEE_ID = #{parentEmployeeId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where EMPLOYEE_ID = #{employeeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.wanho.model.Employee" >
+    update employee
+    set EMPLOYEE_NAME = #{employeeName,jdbcType=VARCHAR},
+      DEPARTMENT_ID = #{departmentId,jdbcType=INTEGER},
+      POSITON_ID = #{positonId,jdbcType=INTEGER},
+      PHONE = #{phone,jdbcType=VARCHAR},
+      EMAIL = #{email,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      PARENT_EMPLOYEE_ID = #{parentEmployeeId,jdbcType=INTEGER},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+    where EMPLOYEE_ID = #{employeeId,jdbcType=INTEGER}
+  </update>
+</mapper>

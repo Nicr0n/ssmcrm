@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.wanho.mapper.EmmPositionMapper" >
+  <resultMap id="BaseResultMap" type="net.wanho.model.EmmPosition" >
+    <id column="POSITION_ID" property="positionId" jdbcType="INTEGER" />
+    <result column="POSITION_NAME" property="positionName" jdbcType="VARCHAR" />
+    <result column="POSITION_LEVEL" property="positionLevel" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    POSITION_ID, POSITION_NAME, POSITION_LEVEL, CREATE_TIME, UPDATE_TIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="net.wanho.model.EmmPositionExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from emm_position
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from emm_position
+    where POSITION_ID = #{positionId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from emm_position
+    where POSITION_ID = #{positionId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="net.wanho.model.EmmPositionExample" >
+    delete from emm_position
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="net.wanho.model.EmmPosition" >
+    <selectKey resultType="java.lang.Integer" keyProperty="positionId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into emm_position (POSITION_NAME, POSITION_LEVEL, CREATE_TIME, 
+      UPDATE_TIME)
+    values (#{positionName,jdbcType=VARCHAR}, #{positionLevel,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="net.wanho.model.EmmPosition" >
+    <selectKey resultType="java.lang.Integer" keyProperty="positionId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into emm_position
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="positionName != null" >
+        POSITION_NAME,
+      </if>
+      <if test="positionLevel != null" >
+        POSITION_LEVEL,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="positionName != null" >
+        #{positionName,jdbcType=VARCHAR},
+      </if>
+      <if test="positionLevel != null" >
+        #{positionLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="net.wanho.model.EmmPositionExample" resultType="java.lang.Integer" >
+    select count(*) from emm_position
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update emm_position
+    <set >
+      <if test="record.positionId != null" >
+        POSITION_ID = #{record.positionId,jdbcType=INTEGER},
+      </if>
+      <if test="record.positionName != null" >
+        POSITION_NAME = #{record.positionName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.positionLevel != null" >
+        POSITION_LEVEL = #{record.positionLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null" >
+        UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update emm_position
+    set POSITION_ID = #{record.positionId,jdbcType=INTEGER},
+      POSITION_NAME = #{record.positionName,jdbcType=VARCHAR},
+      POSITION_LEVEL = #{record.positionLevel,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="net.wanho.model.EmmPosition" >
+    update emm_position
+    <set >
+      <if test="positionName != null" >
+        POSITION_NAME = #{positionName,jdbcType=VARCHAR},
+      </if>
+      <if test="positionLevel != null" >
+        POSITION_LEVEL = #{positionLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where POSITION_ID = #{positionId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.wanho.model.EmmPosition" >
+    update emm_position
+    set POSITION_NAME = #{positionName,jdbcType=VARCHAR},
+      POSITION_LEVEL = #{positionLevel,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+    where POSITION_ID = #{positionId,jdbcType=INTEGER}
+  </update>
+</mapper>

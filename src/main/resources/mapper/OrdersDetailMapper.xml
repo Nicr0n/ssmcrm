@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.wanho.mapper.OrdersDetailMapper">
+  <resultMap id="BaseResultMap" type="net.wanho.model.OrdersDetail">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="DETAIL_ID" jdbcType="INTEGER" property="detailId" />
+    <result column="ORDER_ID" jdbcType="INTEGER" property="orderId" />
+    <result column="STORE_ID" jdbcType="INTEGER" property="storeId" />
+    <result column="PRODUCT_ID" jdbcType="INTEGER" property="productId" />
+    <result column="BUY_NUMS" jdbcType="INTEGER" property="buyNums" />
+    <result column="REAL_PRICES" jdbcType="DECIMAL" property="realPrices" />
+    <result column="REAL_TOTALPRICE" jdbcType="DECIMAL" property="realTotalprice" />
+  </resultMap>
+</mapper>

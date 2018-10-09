@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx"
+	   xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<!--SpringMVC只是控制网站跳转逻辑  -->
+	<!-- 只扫描控制器 -->
+	<tx:annotation-driven />
+	<context:component-scan base-package="net.wanho.controller" />
+	
+	<!-- 视图解析器 -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/jsp/"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+	<!-- 拦截器 -->
+	<!--<mvc:interceptors>-->
+		<!--&lt;!&ndash; 多个拦截器，顺序执行 &ndash;&gt;-->
+		<!--<mvc:interceptor>-->
+			<!--<mvc:mapping path="/**"/>-->
+			<!--<bean class="net.wanho.interceptor.LoginInterceptor"></bean>-->
+		<!--</mvc:interceptor>-->
+	<!--</mvc:interceptors>-->
+	<mvc:annotation-driven  />
+	<mvc:default-servlet-handler/>
+</beans>

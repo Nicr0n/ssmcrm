@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.wanho.mapper.ProcessMapper" >
+  <resultMap id="BaseResultMap" type="net.wanho.model.Process" >
+    <id column="PROCESS_ID" property="processId" jdbcType="INTEGER" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="BUSINESS_ID" property="businessId" jdbcType="INTEGER" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="OPINIONS" property="opinions" jdbcType="VARCHAR" />
+    <result column="OPERATOR" property="operator" jdbcType="INTEGER" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    PROCESS_ID, TYPE, BUSINESS_ID, STATUS, OPINIONS, OPERATOR, CREATE_TIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="net.wanho.model.ProcessExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from process
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from process
+    where PROCESS_ID = #{processId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from process
+    where PROCESS_ID = #{processId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="net.wanho.model.ProcessExample" >
+    delete from process
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="net.wanho.model.Process" >
+    insert into process (PROCESS_ID, TYPE, BUSINESS_ID, 
+      STATUS, OPINIONS, OPERATOR, 
+      CREATE_TIME)
+    values (#{processId,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{businessId,jdbcType=INTEGER}, 
+      #{status,jdbcType=VARCHAR}, #{opinions,jdbcType=VARCHAR}, #{operator,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="net.wanho.model.Process" >
+    insert into process
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="processId != null" >
+        PROCESS_ID,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="businessId != null" >
+        BUSINESS_ID,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="opinions != null" >
+        OPINIONS,
+      </if>
+      <if test="operator != null" >
+        OPERATOR,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="processId != null" >
+        #{processId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="businessId != null" >
+        #{businessId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="opinions != null" >
+        #{opinions,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="net.wanho.model.ProcessExample" resultType="java.lang.Integer" >
+    select count(*) from process
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update process
+    <set >
+      <if test="record.processId != null" >
+        PROCESS_ID = #{record.processId,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null" >
+        TYPE = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.businessId != null" >
+        BUSINESS_ID = #{record.businessId,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null" >
+        STATUS = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.opinions != null" >
+        OPINIONS = #{record.opinions,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operator != null" >
+        OPERATOR = #{record.operator,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update process
+    set PROCESS_ID = #{record.processId,jdbcType=INTEGER},
+      TYPE = #{record.type,jdbcType=VARCHAR},
+      BUSINESS_ID = #{record.businessId,jdbcType=INTEGER},
+      STATUS = #{record.status,jdbcType=VARCHAR},
+      OPINIONS = #{record.opinions,jdbcType=VARCHAR},
+      OPERATOR = #{record.operator,jdbcType=INTEGER},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="net.wanho.model.Process" >
+    update process
+    <set >
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="businessId != null" >
+        BUSINESS_ID = #{businessId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="opinions != null" >
+        OPINIONS = #{opinions,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null" >
+        OPERATOR = #{operator,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PROCESS_ID = #{processId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.wanho.model.Process" >
+    update process
+    set TYPE = #{type,jdbcType=VARCHAR},
+      BUSINESS_ID = #{businessId,jdbcType=INTEGER},
+      STATUS = #{status,jdbcType=VARCHAR},
+      OPINIONS = #{opinions,jdbcType=VARCHAR},
+      OPERATOR = #{operator,jdbcType=INTEGER},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where PROCESS_ID = #{processId,jdbcType=INTEGER}
+  </update>
+</mapper>

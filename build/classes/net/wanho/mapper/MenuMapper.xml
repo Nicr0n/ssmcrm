@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.wanho.mapper.MenuMapper" >
+  <resultMap id="BaseResultMap" type="net.wanho.model.Menu" >
+    <id column="MENU_ID" property="menuId" jdbcType="INTEGER" />
+    <result column="MENU_NAME" property="menuName" jdbcType="VARCHAR" />
+    <result column="MENU_URL" property="menuUrl" jdbcType="VARCHAR" />
+    <result column="PICTURES" property="pictures" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="PARENT_MENU_ID" property="parentMenuId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    MENU_ID, MENU_NAME, MENU_URL, PICTURES, STATUS, CREATE_TIME, UPDATE_TIME, PARENT_MENU_ID
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="net.wanho.model.MenuExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from menu
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from menu
+    where MENU_ID = #{menuId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from menu
+    where MENU_ID = #{menuId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="net.wanho.model.MenuExample" >
+    delete from menu
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="net.wanho.model.Menu" >
+    <selectKey resultType="java.lang.Integer" keyProperty="menuId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into menu (MENU_NAME, MENU_URL, PICTURES, 
+      STATUS, CREATE_TIME, UPDATE_TIME, 
+      PARENT_MENU_ID)
+    values (#{menuName,jdbcType=VARCHAR}, #{menuUrl,jdbcType=VARCHAR}, #{pictures,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{parentMenuId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="net.wanho.model.Menu" >
+    <selectKey resultType="java.lang.Integer" keyProperty="menuId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into menu
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="menuName != null" >
+        MENU_NAME,
+      </if>
+      <if test="menuUrl != null" >
+        MENU_URL,
+      </if>
+      <if test="pictures != null" >
+        PICTURES,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="parentMenuId != null" >
+        PARENT_MENU_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="menuName != null" >
+        #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="menuUrl != null" >
+        #{menuUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="pictures != null" >
+        #{pictures,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="parentMenuId != null" >
+        #{parentMenuId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="net.wanho.model.MenuExample" resultType="java.lang.Integer" >
+    select count(*) from menu
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update menu
+    <set >
+      <if test="record.menuId != null" >
+        MENU_ID = #{record.menuId,jdbcType=INTEGER},
+      </if>
+      <if test="record.menuName != null" >
+        MENU_NAME = #{record.menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.menuUrl != null" >
+        MENU_URL = #{record.menuUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pictures != null" >
+        PICTURES = #{record.pictures,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        STATUS = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null" >
+        UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.parentMenuId != null" >
+        PARENT_MENU_ID = #{record.parentMenuId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update menu
+    set MENU_ID = #{record.menuId,jdbcType=INTEGER},
+      MENU_NAME = #{record.menuName,jdbcType=VARCHAR},
+      MENU_URL = #{record.menuUrl,jdbcType=VARCHAR},
+      PICTURES = #{record.pictures,jdbcType=VARCHAR},
+      STATUS = #{record.status,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      PARENT_MENU_ID = #{record.parentMenuId,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="net.wanho.model.Menu" >
+    update menu
+    <set >
+      <if test="menuName != null" >
+        MENU_NAME = #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="menuUrl != null" >
+        MENU_URL = #{menuUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="pictures != null" >
+        PICTURES = #{pictures,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="parentMenuId != null" >
+        PARENT_MENU_ID = #{parentMenuId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where MENU_ID = #{menuId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.wanho.model.Menu" >
+    update menu
+    set MENU_NAME = #{menuName,jdbcType=VARCHAR},
+      MENU_URL = #{menuUrl,jdbcType=VARCHAR},
+      PICTURES = #{pictures,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      PARENT_MENU_ID = #{parentMenuId,jdbcType=INTEGER}
+    where MENU_ID = #{menuId,jdbcType=INTEGER}
+  </update>
+</mapper>

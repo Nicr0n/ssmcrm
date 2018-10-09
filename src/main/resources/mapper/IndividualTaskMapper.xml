@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.wanho.mapper.IndividualTaskMapper">
+  <resultMap id="BaseResultMap" type="net.wanho.model.IndividualTask">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="TASK_ID" jdbcType="INTEGER" property="taskId" />
+    <result column="TOPIC" jdbcType="VARCHAR" property="topic" />
+    <result column="RESPONSIBLE_PERSON" jdbcType="INTEGER" property="responsiblePerson" />
+    <result column="END_TIME" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="PRIORITY" jdbcType="VARCHAR" property="priority" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="OPERATOR" jdbcType="INTEGER" property="operator" />
+    <result column="LINK_URL" jdbcType="VARCHAR" property="linkUrl" />
+    <result column="TASK_TYPE" jdbcType="VARCHAR" property="taskType" />
+    <result column="DESCRIPTION" jdbcType="LONGVARCHAR" property="description" />
+  </resultMap>
+</mapper>
