@@ -70,8 +70,9 @@ public class EmployeeController {
         return "redirect:getAllEmployee";
     }
 
-    @RequestMapping("/updateEmployeeStatus")
-    public String updateEmployeeStatus() {
-        return "redirect:getAllEmployee";
+    @RequestMapping("/updateEmployeeStatus/{id}")
+    public CrmResult updateEmployeeStatus(@RequestBody Employee employee) {
+        CrmResult result = new CrmResult();
+        return result;
     }
 }

@@ -14,6 +14,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Resource
     private EmployeeMapper employeeMapper;
 
+    /**
+     * 选取所有员工
+     * @return 员工列表
+     */
     @Override
     public List<Employee> selectAllEmployee() {
         List<Employee> result = new ArrayList<>();
@@ -21,11 +25,23 @@ public class EmployeeServiceImpl implements EmployeeService {
         return result;
     }
 
+    /**
+     * 选取制定id的员工
+     * @param id 员工id
+     * @return 员工信息
+     */
     @Override
     public Employee selectEmployeeById(Integer id) {
         Employee employee = new Employee();
         System.out.println("查询id为"+id+"的员工");
         employee = employeeMapper.selectByPrimaryKey(id);
         return employee;
+    }
+
+    @Override
+    public int updateEmployeeStatus(Employee employee) {
+        int updatedId;
+        updatedId = employeeMapper.updateByPrimaryKeySelective(employee);
+        return updatedId;
     }
 }

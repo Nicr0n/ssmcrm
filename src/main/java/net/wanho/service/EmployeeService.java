@@ -9,4 +9,6 @@ public interface EmployeeService {
     List<Employee> selectAllEmployee();
 
     Employee selectEmployeeById(Integer id);
+
+    int updateEmployeeStatus(Employee employee);
 }
