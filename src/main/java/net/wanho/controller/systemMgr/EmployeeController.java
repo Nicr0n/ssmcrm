@@ -70,11 +70,12 @@ public class EmployeeController {
         return "redirect:getAllEmployee";
     }
 
+    @ResponseBody
     @RequestMapping("/updateEmployeeStatus/{id}")
     public CrmResult updateEmployeeStatus(@PathVariable("id")Integer id) {
         CrmResult result = new CrmResult();
         int updatedId = employeeService.updateEmployeeStatus(id);
-        result.setMsg("修改的员工的ID为："+updatedId);
+        result.setMsg("修改的员工的ID为："+id);
         return result;
     }
 }

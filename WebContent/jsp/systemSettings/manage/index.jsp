@@ -77,6 +77,7 @@
             success:function (data) {
                 var temp = data.data.list;
                 console.log(temp);
+                $(".table-main").html(" ");
                 $.each(temp, function (index,value) {
                     console.log(value)
                     var str = '<tr data-key="1"><td>'+value.employeeId+'</td>' +
@@ -88,7 +89,7 @@
                         '<td>'+value.status+'</td>' +
                         '<td>'+value.createTime+'</td>' +
                         '<td>'+value.updateTime+'</td>' +
-                        '<td><button type="button" id="recevorbtn" name="recevorbtn" class="btn btn-success btn-sm" onclick="updateEmployeeStatus('+value.employeeId+','+value.status +')">恢复正常</button></td></tr>'
+                        '<td><button type="button" id="recevorbtn" name="recevorbtn" class="btn btn-success btn-sm" onclick="updateEmployeeStatus('+value.employeeId+')">恢复正常</button></td></tr>'
                     $(".table-main").append(str);
                 })
             }
@@ -98,11 +99,17 @@
     
     
     
-    function updateEmployeeStatus(employeeId, status) {
-
-        location.href = 'employee/updateEmployeeStatus?employeeId='
-            + employeeId + '&status=' + status;
-
+    function updateEmployeeStatus(employeeId) {
+        $.ajax({
+            url:"http://localhost:8080/employee/updateEmployeeStatus/"+employeeId ,
+            success:function (data) {
+                console.log(data);
+                if (data.status==200) {
+                    alert(data.msg);
+                    getAllEmployee();
+                }
+            }
+        })
     }
     function updateEmployeeDetail(employeeId) {
         location.href = 'employee/findEmployeeById?employeeId='
