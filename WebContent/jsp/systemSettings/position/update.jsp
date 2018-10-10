@@ -48,7 +48,7 @@
 							<label class="col-sm-2 control-label"></label>
 
 							<div class="col-lg-10">
-								<button type="button" id="mysubmit" class="btn btn-success">修改</button>
+								<button type="button" class="btn btn-success" onclick="positionCheck()">修改</button>
 								<button type="button" class="btn btn-default"
 									onClick="history.go(-1);">返回</button>
 							</div>
@@ -60,19 +60,26 @@
 	</div>
 	<script type="text/javascript">
 		$(function() {
-
-			$("#mysubmit").click(positionCheck);
-			$("#positionLevel").val('${emmPosition.positionLevel}');
+            getPositionInfo('<%= request.getParameter("positionName")%>');
+        })
+		function getPositionInfo(positionName) {
+			$.ajax({
+				url : "/emmPosition/selectByPositionName",
+				data : positionName ,
+				success : function (data) {
+					console.log(data);
+                }
+			})
+        }
 			function positionCheck() {
 				var positionLevel = $("#positionLevel").val();
 				if( 0 == positionLevel){
 				 	alert("必须选择职位等级！");
-				 	return;
+				 	return ;
 				}
 				var positionName = $("#positionName").val();
 				var data = {};
 				data.positionName = positionName;
-				var flag = false;
 				$.ajax({
 					type : 'post',
 					url : 'emmPosition/positionNameCheck',
@@ -93,7 +100,8 @@
 					}
 				});
 			}
-		});
+
+
 	</script>
 </body>
 </html>

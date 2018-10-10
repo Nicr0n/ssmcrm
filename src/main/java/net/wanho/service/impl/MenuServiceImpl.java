@@ -60,7 +60,7 @@ public class MenuServiceImpl implements MenuService {
     public int deleteMenuById(int id) {
         Menu menu = new Menu();
         menu.setMenuId(id);
-        menu.setStatus("已删除");
+        menu.setStatus("0");
         menu.setUpdateTime(new Timestamp(new Date().getTime()));
         return menuMapper.updateByPrimaryKeySelective(menu);
     }

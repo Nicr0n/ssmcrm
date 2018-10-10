@@ -203,7 +203,8 @@
             data: JSON.stringify(employee),
             dataType:"json",
             success: function (data) {
-                alert(data);
+                console.log(data);
+                alert(data.msg);
                 location.href='/jsp/systemSettings/manage/index.jsp';
             },
             error: function () {

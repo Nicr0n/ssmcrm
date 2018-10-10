@@ -55,9 +55,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             employee.setStatus("0");
         }
         employee.setUpdateTime(new Timestamp(new Date().getTime()));
-        int updatedId;
-        updatedId = employeeMapper.updateByPrimaryKeySelective(employee);
-        return updatedId;
+        return employeeMapper.updateByPrimaryKeySelective(employee);
     }
 
     /**
@@ -85,7 +83,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     /**
      * 按照条件查询
-     * @param employee 包含条件信息的累
+     * @param employee 包含条件信息的员工
      * @return 员工列表
      */
     @Override
