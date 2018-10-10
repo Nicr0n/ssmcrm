@@ -56,9 +56,9 @@
                             <select id="manage-department_id" class="form-control"
                                     name="manage-department_id">
                                 <option value="0">选择部门</option>
-                                <option>产品一部</option>
-                                <option>产品二部</option>
-                                <option>事业一部</option>
+                                <option value="1">产品一部</option>
+                                <option value="2">产品二部</option>
+                                <option value="3">事业一部</option>
                             </select>
                         </div>
                         <div class="help-block help-block-error"></div>
@@ -70,9 +70,9 @@
                             <select id="manage-position_id" class="form-control"
                                     name="manage-position_id">
                                 <option value="0">选择职位</option>
-                                <option>总监</option>
-                                <option>经理</option>
-                                <option>普通员工</option>
+                                <option value="12">总监</option>
+                                <option value="13">经理</option>
+                                <option value="14">普通员工</option>
                             </select>
                         </div>
                         <div class="help-block help-block-error"></div>
@@ -112,7 +112,7 @@
                                     onclick="commitCheck()">添加
                             </button>
                             <button type="button" class="btn btn-default"
-                                    onClick="history.go(-1);">返回
+                                    onClick="location.href='/jsp/systemSettings/manage/index.jsp'">返回
                             </button>
                             <input type="hidden" name="reback">
                         </div>
@@ -168,21 +168,39 @@
                 cache: false,
                 sync: true,
                 success: function (msg) {
-                    var json = JSON.parse(msg);
-                    if (0 == json.status) {
-                        alert(json.msg);
-                    } else {
-                        //alert("提交表单");
-                        $("#addEmployeeForm").submit();
-                    }
+                        addEmployee();
                 },
                 error: function () {
                     alert("请求失败!");
                 }
             });
         } else {
-            $("#addEmployeeForm").submit();
+            addEmployee();
         }
+    }
+    function addEmployee() {
+        var employee = {};
+        employee.employeeName=$("#manage-name").val();
+        employee.departmentId=$("#manage-department_id").val();
+        employee.positonId=$("#manage-position_id").val();
+        employee.phone= $("#manage-mobile").val();
+        employee.email= $("#manage-email").val();
+        employee.parentEmployeeId=$("#parentemployeeId").val();
+        console.log(employee);
+        $.ajax({
+            type: 'post',
+            contentType : "application/json",
+            url: 'employee/addEmployee',
+            data: JSON.stringify(employee),
+            dataType:"json",
+            success: function (data) {
+                alert(data);
+                location.href='/jsp/systemSettings/manage/index.jsp';
+            },
+            error: function () {
+                alert("请求失败!");
+            }
+        });
     }
 </script>
 </body>

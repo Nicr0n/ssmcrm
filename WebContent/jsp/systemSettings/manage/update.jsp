@@ -17,20 +17,19 @@
                     class="icon-reply"></i> </a>
             </div>
             <div class="widget-content padded clearfix">
-                <form id="updateEmployeeFrom" class="form-horizontal"
-                      action="employee/updateEmployee" method="post">
+                <form id="updateEmployeeFrom" class="form-horizontal">
                     <div class="form-group">
                         <label class="control-label col-md-2">工号</label>
                         <div class="col-md-8">
                             <input type="text" class="form-control" id="employeeId"
-                                   name="employeeId" value="2" readonly="readonly">
+                                   name="employeeId" readonly="readonly">
                         </div>
                     </div>
                     <div class="form-group field-manage-name required">
                         <label class="control-label col-sm-2" for="manage-name">姓名</label>
                         <div class="col-sm-8">
                             <input type="text" id="manage-name" class="form-control"
-                                   name="manage-name" value="小红">
+                                   name="manage-name">
                         </div>
                         <div class="help-block help-block-error"></div>
                     </div>
@@ -42,9 +41,9 @@
                             <select id="manage-department_id" class="form-control"
                                     name="manage-department_id">
                                 <option value="0">选择部门</option>
-                                <option>产品一部</option>
-                                <option>产品二部</option>
-                                <option>事业一部</option>
+                                <option value="1">产品一部</option>
+                                <option value="2">产品二部</option>
+                                <option value="3">事业一部</option>
                             </select>
                         </div>
                         <div class="help-block help-block-error"></div>
@@ -57,9 +56,9 @@
                             <select id="manage-position_id" class="form-control"
                                     name="manage-position_id">
                                 <option value="0">选择职位</option>
-                                <option>总监</option>
-                                <option>经理</option>
-                                <option>普通员工</option>
+                                <option value="12">总监</option>
+                                <option value="13">经理</option>
+                                <option value="14">普通员工</option>
                             </select>
                         </div>
                         <div class="help-block help-block-error"></div>
@@ -69,7 +68,7 @@
 
                         <div class="col-sm-8">
                             <input type="text" id="manage-mobile" class="form-control"
-                                   name="manage-mobile" value="18988888888">
+                                   name="manage-mobile">
                         </div>
                         <div class="help-block help-block-error"></div>
                     </div>
@@ -77,16 +76,16 @@
                         <label class="control-label col-sm-2" for="manage-email">电子邮箱</label>
                         <div class="col-sm-8">
                             <input type="text" id="manage-email" class="form-control"
-                                   name="manage-email" value="7633@qq.com">
+                                   name="manage-email">
                         </div>
                         <div class="help-block help-block-error"></div>
                     </div>
 
                     <div class="form-group field-manage-parentemployeeId">
-                        <label class="control-label col-sm-2" for="manage-address">上级员工工号</label>
+                        <label class="control-label col-sm-2" for="parentemployeeId">上级员工工号</label>
                         <div class="col-sm-8">
                             <input type="text" id="parentemployeeId" class="form-control"
-                                   name="parentemployeeId" value="10000">
+                                   name="parentemployeeId">
                         </div>
                         <div class="help-block help-block-error"></div>
                     </div>
@@ -98,7 +97,7 @@
                                     onclick="commitCheck()">修改
                             </button>
                             <button type="button" class="btn btn-default"
-                                    onClick="history.go(-1);">返回
+                                    onClick="location.href='/jsp/systemSettings/manage/index.jsp'">返回
                             </button>
                             <input type="hidden" name="reback">
                         </div>
@@ -110,9 +109,24 @@
 </div>
 <script type="text/javascript">
     $(function () {
-        $("#manage-department_id").val('${employee.departmentId}');
-        $("#manage-position_id").val('${employee.positonId}');
+        selectEmployeeById(<%= request.getParameter("employeeId")%>);
     });
+    function selectEmployeeById(employeeId) {
+        $.ajax({
+            url : 'employee/findEmployeeById/'+ employeeId,
+            success : function (data) {
+                console.log(data)
+                data=data.data;
+                $("#employeeId").val(data.employeeId);
+                $("#manage-name").val(data.employeeName);
+                $("#manage-department_id").val(data.departmentId);
+                $("#manage-position_id").val(data.positonId);
+                $("#manage-mobile").val(data.phone);
+                $("#manage-email").val(data.email);
+                $("#parentemployeeId").val(data.parentEmployeeId);
+            }
+        })
+    }
 
     function commitCheck() {
         var managename = $("#manage-name").val();
@@ -146,27 +160,43 @@
             var data = {};
             data.parentemployeeId = parentemployeeId;
             $.ajax({
-                type: 'post',
                 url: 'employee/checkParentEmployee',
                 data: data,
-                cache: false,
-                sync: true,
                 success: function (msg) {
-                    var json = JSON.parse(msg);
-                    if (0 == json.status) {
-                        alert(json.msg);
-                    } else {
-                        //alert("提交表单");
-                        $("#updateEmployeeFrom").submit();
-                    }
+                    updateEmployee();
                 },
                 error: function () {
                     alert("请求失败!");
                 }
             });
         } else {
-            $("#updateEmployeeFrom").submit();
+            updateEmployee();
         }
+    }
+    function updateEmployee() {
+        var employee = {};
+        employee.employeeId=$("#employeeId").val();
+        employee.employeeName=$("#manage-name").val();
+        employee.departmentId=$("#manage-department_id").val();
+        employee.positonId=$("#manage-position_id").val();
+        employee.phone= $("#manage-mobile").val();
+        employee.email= $("#manage-email").val();
+        employee.parentEmployeeId=$("#parentemployeeId").val();
+        console.log(employee);
+        $.ajax({
+            type: 'post',
+            contentType : "application/json",
+            url: 'employee/updateEmployee',
+            data: JSON.stringify(employee),
+            dataType:"json",
+            success: function (data) {
+                alert(data);
+                location.href='/jsp/systemSettings/manage/index.jsp';
+            },
+            error: function () {
+                alert("请求失败!");
+            }
+        });
     }
 </script>
 </body>

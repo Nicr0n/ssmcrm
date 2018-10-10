@@ -16,13 +16,12 @@
             <div class="heading clearfix">
                 <i class="icon-table"></i> 员工管理 <a
                     class="btn btn-sm btn-primary pull-right"
-                    href="employee/getDeapartAndPostionInfo"><i
+                    href="/jsp/systemSettings/manage/create.jsp"><i
                     class="icon-plus"></i> 添加员工</a>
             </div>
             <div class="widget-content padded clearfix">
                 <div class="dataTables_filter">
-                    <form class="form-inline"
-                          action="EmployeeServlet?method=getAllEmployee" method="post">
+
                         <div class="btn-group">
                             <span>工号：</span> <input type="text" class="form-control"
                                                     id="emmployeeId" name="emmployeeId" value="">
@@ -33,11 +32,10 @@
                                                     value="">
                         </div>
                         <div class="btn-group">
-                            <button type="submit" class="btn btn-success">
+                            <button class="btn btn-success">
                                 <i class="glyphicon glyphicon-search"></i> 搜索
                             </button>
                         </div>
-                    </form>
                 </div>
                 <div id="w0" class="grid-view">
                     <div class="table-responsive">
@@ -60,6 +58,25 @@
 
                             </tbody>
                         </table>
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination table-nav">
+                                <%--<li>--%>
+                                    <%--<a href="#" aria-label="Previous">--%>
+                                        <%--<span aria-hidden="true">&laquo;</span>--%>
+                                    <%--</a>--%>
+                                <%--</li>--%>
+                                <%--<li><a href="#">1</a></li>--%>
+                                <%--<li><a href="#">2</a></li>--%>
+                                <%--<li><a href="#">3</a></li>--%>
+                                <%--<li><a href="#">4</a></li>--%>
+                                <%--<li><a href="#">5</a></li>--%>
+                                <%--<li>--%>
+                                    <%--<a href="#" aria-label="Next">--%>
+                                        <%--<span aria-hidden="true">&raquo;</span>--%>
+                                    <%--</a>--%>
+                                <%--</li>--%>
+                            </ul>
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -68,22 +85,22 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        getAllEmployee();
+        getAllEmployee(1);
     })
-    function getAllEmployee() {
+    function getAllEmployee(page) {
         $.ajax({
             url:"http://localhost:8080/employee/getAllEmployee",
-            data:{"pn":"1"},
+            data:{"pn":page},
             success:function (data) {
                 var temp = data.data.list;
-                console.log(temp);
+                console.log(data);
                 $(".table-main").html(" ");
                 $.each(temp, function (index,value) {
                     console.log(value)
                     var str = '<tr data-key="1"><td>'+value.employeeId+'</td>' +
                         '<td>'+value.employeeName+'</td>' +
-                        '<td>'+value.departmentId+'</td>' +
-                        '<td>'+value.positonId+'</td>' +
+                        '<td>'+value.department.departmentName+'</td>' +
+                        '<td>'+value.emmPosition.positionName+'</td>' +
                         '<td>'+value.phone+'</td>' +
                         '<td>'+value.email+'</td>' +
                         '<td>'+(value.status==0 ? "禁用" : "正常")+'</td>' +
@@ -94,7 +111,13 @@
                         '<button type="button" id="recevorbtn2" name="recevorbtn2" class="btn btn-danger btn-sm" onclick="updateEmployeeStatus('+value.employeeId+')">禁用账户</button>')
                         +                 '</td></tr>'
                     $(".table-main").append(str);
+                });
+                var str = (data.data.pageNum == 1 ? '' : '<li><a href="javascript:;" aria-label="Previous"  onclick="getAllEmployee('+1+')"><span aria-hidden="true">&laquo;</span></a></li>');
+                $.each(data.data.navigatepageNums,function (index,value) {
+                    str += '<li><a href="javascript:;" onclick="getAllEmployee('+value+')">'+value+'</a></li>';
                 })
+                str += (data.data.pageNum == data.data.pages ? '' : '<li><a href="javascript:;" aria-label="Next" onclick="getAllEmployee('+data.data.pages+')"><span aria-hidden="true">&raquo;</span></a></li>');
+                $(".table-nav").html(str);
             }
         })
     }
@@ -109,13 +132,13 @@
                 console.log(data);
                 if (data.status==200) {
                     alert(data.msg);
-                    getAllEmployee();
+                    getAllEmployee(1);
                 }
             }
         })
     }
     function updateEmployeeDetail(employeeId) {
-        location.href = 'employee/findEmployeeById?employeeId='
+        location.href = '/jsp/systemSettings/manage/update.jsp?employeeId='
             + employeeId;
     }
 </script>
