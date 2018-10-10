@@ -21,21 +21,19 @@
             </div>
             <div class="widget-content padded clearfix">
                 <div class="dataTables_filter">
-
+                    <form class="form-inline" action="menu/getAllMenu"
+                          method="post">
                         <div class="btn-group">
-                            <span>工号：</span> <input type="text" class="form-control"
-                                                    id="emmployeeId" name="emmployeeId" value="">
+                            <span>菜单名：</span>
+                            <input type="text" class="form-control" id="name" name="name"
+                                   value="" placeholder="名称">
                         </div>
                         <div class="btn-group">
-                            <span>姓名：</span> <input type="text" class="form-control"
-                                                    id="emmployeename" name="emmployeename"
-                                                    value="">
-                        </div>
-                        <div class="btn-group">
-                            <button class="btn btn-success">
+                            <button type="submit" class="btn btn-success">
                                 <i class="glyphicon glyphicon-search"></i> 搜索
                             </button>
                         </div>
+                    </form>
                 </div>
                 <div id="w0" class="grid-view">
                     <div class="table-responsive">
