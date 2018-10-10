@@ -64,8 +64,10 @@
         })
 		function getPositionInfo(positionName) {
 			$.ajax({
+				type : 'post',
+                contentType : "application/json;charset=UTF-8",
 				url : "/emmPosition/selectByPositionName",
-				data : positionName ,
+				data : '项目' ,
 				success : function (data) {
 					console.log(data);
                 }

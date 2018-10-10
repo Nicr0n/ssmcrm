@@ -105,7 +105,8 @@ public class EmmPositionServiceImpl implements EmmPositionService {
     public List<EmmPosition> selectByPositionName(String positionName) {
         Example example = new Example(EmmPosition.class);
         Example.Criteria criteria = example.createCriteria();
-       criteria.andLike("positionName","%"+positionName+"%");
+        String condition = "%"+positionName+"%";
+        criteria.andLike("positionName",condition);
         return emmPositionMapper.selectByExample(example);
     }
 

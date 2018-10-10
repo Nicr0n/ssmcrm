@@ -77,13 +77,13 @@
     })
     function getAllEmmPosition() {
         $.ajax({
-            url : "/emmPosition/getAllEmmPosition",
+            url : "/menu/getAllParentMenu",
             success : function (data) {
                 data =data.data;
-                $("#manage-position_id").html('<option value="0">选择职位</option>');
-                $.each(data.list,function (index , value) {
-                    var str = '<option value="'+value.positionId+'">'+value.positionName+'</option>'
-                    $("#manage-position_id").append(str)
+                console.log(data)
+                $.each(data,function (index , value) {
+                    var str = '<option value="'+value.menuId+'">'+value.menuName+'</option>'
+                    $("#menu-parent_id").append(str)
                 })
                 getUpdateMenudetailById(<%= request.getParameter("menuId")%>)
             }
@@ -92,12 +92,14 @@
 
     function getUpdateMenudetailById(menuId) {
         $.ajax({
-            type: 'post',
-            contentType : "application/json",
-            url : "/menu/updateMenu",
-            data : JSON.stringify({ 'menuId' : menuId }),
+            url : "/menu/selectById/"+menuId,
             success : function(data) {
                 console.log(data)
+                data=data.data;
+                $("#menu-parent_id").val(data.parentMenuId);
+                $("#menu-name").val(data.menuName);
+                $("#menu-url").val(data.menuUrl==null?"":data.menuUrl);
+                $("#menu-icon").val(data.pictures==null?"":data.pictures);
             }
         })
     }
