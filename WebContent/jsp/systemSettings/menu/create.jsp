@@ -16,14 +16,14 @@
                     class="icon-reply"></i></a>
             </div>
             <div class="widget-content padded clearfix">
-                <form id="addMenuFrom" class="form-horizontal" action="menu/addMenu" method="post">
+                <form id="addMenuFrom" class="form-horizontal">
                     <div class="form-group field-menu-parent_id required">
                         <label class="control-label col-sm-2" for="menu-parent_id">父级</label>
                         <div class="col-sm-8">
                             <select id="menu-parent_id" class="form-control" name="menu-parent_id">
                                 <option value="0">顶级节点</option>
-                              		<option>|-客户管理</option>
-                              		<option>|-系统管理</option>
+                              		<%--<option>|-客户管理</option>--%>
+                              		<%--<option>|-系统管理</option>--%>
                             </select>
                         </div>
                         <div class="help-block help-block-error"></div>
@@ -70,6 +70,22 @@
 </div>
 </body>
 <script type="text/javascript">
+    $(function() {
+        getAllParentMenu();
+    })
+    function getAllParentMenu() {
+        $.ajax({
+            url:'/menu/getAllParentMenu',
+            success : function(data) {
+                console.log(data);
+                $.each(data.data,function(index,value) {
+                    var str = '<option value="'+value.menuId+'">|-'+value.menuName+'</option>'
+                    $("#menu-parent_id").append(str)
+                })
+
+            }
+        })
+    }
 	function addMetuCheck(){
 			var menuname=$("#menu-name").val();
 			if( "" == menuname || undefined == menuname){
@@ -82,8 +98,21 @@
 				alert("请设置菜单路径");
 				return ;
 			}
-			
-			$("#addMenuFrom").submit();
+
+            var data = {};
+			data.menuName=$("#menu-name").val();
+			data.menuUrl=$("#menu-url").val();
+            data.pictures=$("#menu-icon").val();
+            data.parentMenuId=$("#menu-parent_id").val();
+			$.ajax({
+                type : 'post',
+                contentType : "application/json",
+                url : 'menu/addMenu',
+                data : JSON.stringify(data),
+                success : function(data) {
+                    console.log(data);
+                }
+            })
 	}
 </script>
 </html>

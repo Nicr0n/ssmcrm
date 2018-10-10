@@ -115,7 +115,7 @@
                 });
                 var str = (data.data.pageNum == 1 ? '' : '<li><a href="javascript:;" aria-label="Previous"  onclick="getAllEmployee('+1+')"><span aria-hidden="true">&laquo;</span></a></li>');
                 $.each(data.data.navigatepageNums,function (index,value) {
-                    str += '<li><a href="javascript:;" onclick="getAllEmployee('+value+')">'+value+'</a></li>';
+                    str += '<li class="'+(value == data.data.pageNum ? "active" : "" )+'"><a href="javascript:;" onclick="getAllEmployee('+value+')" >'+value+'</a></li>';
                 })
                 str += (data.data.pageNum == data.data.pages ? '' : '<li><a href="javascript:;" aria-label="Next" onclick="getAllEmployee('+data.data.pages+')"><span aria-hidden="true">&raquo;</span></a></li>');
                 $(".table-nav").html(str);

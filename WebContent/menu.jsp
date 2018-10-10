@@ -79,8 +79,8 @@
                 	</a>
                     <ul class="dropdown-menu">
                         <li><a href="jsp/systemSettings/manage/index.jsp" class="">员工管理</a></li>
-                        <li><a href="emmPosition/getAllEmmPosition" class="">职位管理</a></li>
-                        <li><a href="menu/getAllMenu" class="">菜单管理</a></li>
+                        <li><a href="jsp/systemSettings/position/index.jsp" class="">职位管理</a></li>
+                        <li><a href="jsp/systemSettings/menu/index.jsp" class="">菜单管理</a></li>
                     </ul>
                 </li>
             </ul>

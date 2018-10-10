@@ -22,8 +22,8 @@
                         <div class="col-sm-8">
                             <select id="menu-parent_id" class="form-control" name="menu-parent_id">
                                 <option value="0">顶级节点</option>
-                              		<option>|-客户管理</option>
-                              		<option>|-系统管理</option>
+                              		<%--<option>|-客户管理</option>--%>
+                              		<%--<option>|-系统管理</option>--%>
                             </select>
                         </div>
                         <div class="help-block help-block-error"></div>
@@ -72,6 +72,36 @@
 
 </body>
 <script type="text/javascript">
+    $(function () {
+        getAllEmmPosition();
+    })
+    function getAllEmmPosition() {
+        $.ajax({
+            url : "/emmPosition/getAllEmmPosition",
+            success : function (data) {
+                data =data.data;
+                $("#manage-position_id").html('<option value="0">选择职位</option>');
+                $.each(data.list,function (index , value) {
+                    var str = '<option value="'+value.positionId+'">'+value.positionName+'</option>'
+                    $("#manage-position_id").append(str)
+                })
+                getUpdateMenudetailById(<%= request.getParameter("menuId")%>)
+            }
+        })
+    }
+
+    function getUpdateMenudetailById(menuId) {
+        $.ajax({
+            type: 'post',
+            contentType : "application/json",
+            url : "/menu/updateMenu",
+            data : JSON.stringify({ 'menuId' : menuId }),
+            success : function(data) {
+                console.log(data)
+            }
+        })
+    }
+    
 	function addMetuCheck(){
 		var menuname=$("#menu-name").val();
 		if( "" == menuname || undefined == menuname){

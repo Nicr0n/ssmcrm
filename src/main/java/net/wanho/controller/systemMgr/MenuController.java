@@ -69,6 +69,7 @@ public class MenuController {
      * @param menu 新增菜单信息
      * @return 新增的菜单的主键
      */
+    @ResponseBody
     @RequestMapping("/addMenu")
     public CrmResult addMenu(@RequestBody Menu menu) {
         CrmResult crmResult = new CrmResult();
@@ -82,6 +83,7 @@ public class MenuController {
      * @param id 指定的菜单的ID
      * @return 被删除的菜单的ID
      */
+    @ResponseBody
     @RequestMapping("/deleteMenuById/{id}")
     public CrmResult deleteMenuById(@PathVariable("id")Integer id) {
         CrmResult crmResult = new CrmResult();

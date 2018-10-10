@@ -94,7 +94,7 @@
                     </div>
 
                     <div class="form-group field-manage-parentemployeeId">
-                        <label class="control-label col-sm-2" for="manage-address">上级员工工号</label>
+                        <label class="control-label col-sm-2" for="parentemployeeId">上级员工工号</label>
                         <div class="col-sm-8">
                             <input type="text" id="parentemployeeId" class="form-control"
                                    name="parentemployeeId" placeholder="上级员工工号">
@@ -191,7 +191,8 @@
             data: JSON.stringify(employee),
             dataType:"json",
             success: function (data) {
-                alert(data);
+                console.log(data);
+                alert(data.msg);
                 location.href='/jsp/systemSettings/manage/index.jsp';
             },
             error: function () {
