@@ -16,4 +16,6 @@ public interface MenuService {
     int updateMenu(Menu menu);
 
     List<Menu> queryWithBindPosition();
+
+    Menu selectById(Integer id);
 }

@@ -135,4 +135,18 @@ public class EmmPositonController {
         crmResult.setData(emmPositionService.selectByPositionName(positionName));
         return crmResult;
     }
+
+    /**
+     * 按照ID查找职位
+     * @param id ID
+     * @return 职位信息
+     */
+    @ResponseBody
+    @RequestMapping("/selectById/{id}")
+    public CrmResult selectById(@PathVariable("id")Integer id){
+        CrmResult crmResult = new CrmResult();
+        crmResult.setMsg("success");
+        crmResult.setData(emmPositionService.selectById(id));
+        return crmResult;
+    }
 }

@@ -111,7 +111,7 @@ public class MenuController {
 
     /**
      * 查询菜单 绑定职位
-     * @return
+     * @return 绑定职位的菜单信息
      */
     @RequestMapping("/queryWithBindPosition")
     @ResponseBody
@@ -119,6 +119,15 @@ public class MenuController {
         CrmResult crmResult = new CrmResult();
         crmResult.setData(menuService.queryWithBindPosition());
         crmResult.setMsg("success");
+        return crmResult;
+    }
+
+    @ResponseBody
+    @RequestMapping("/selectById/{id}")
+    public CrmResult selectById(@PathVariable("id")Integer id){
+        CrmResult crmResult = new CrmResult();
+        crmResult.setMsg("success");
+        crmResult.setData(menuService.selectById(id));
         return crmResult;
     }
 }

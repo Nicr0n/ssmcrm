@@ -21,7 +21,10 @@ public class MenuServiceImpl implements MenuService {
      */
     @Override
     public List<Menu> getAllMenu() {
-        return menuMapper.selectAll();
+        Example example = new Example(Menu.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andIsNull("status");
+        return menuMapper.selectByExample(example);
     }
 
     /**
@@ -73,8 +76,22 @@ public class MenuServiceImpl implements MenuService {
         return menuMapper.updateByPrimaryKeySelective(menu);
     }
 
+    /**
+     * 查询绑定职位的菜单信息
+     * @return 绑定职位的菜单列表
+     */
     @Override
     public List<Menu> queryWithBindPosition() {
         return menuMapper.queryWithBindPosition();
+    }
+
+    /**
+     * 按照主键查询菜单信息
+     * @param id 主键
+     * @return 菜单信息
+     */
+    @Override
+    public Menu selectById(Integer id) {
+        return menuMapper.selectByPrimaryKey(id);
     }
 }

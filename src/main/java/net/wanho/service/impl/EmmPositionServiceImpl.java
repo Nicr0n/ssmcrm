@@ -109,5 +109,13 @@ public class EmmPositionServiceImpl implements EmmPositionService {
         return emmPositionMapper.selectByExample(example);
     }
 
-
+    /**
+     * 按照主键查找职位
+     * @param id 主键
+     * @return 职位信息
+     */
+    @Override
+    public EmmPosition selectById(Integer id) {
+        return emmPositionMapper.selectByPrimaryKey(id);
+    }
 }

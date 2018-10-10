@@ -19,4 +19,5 @@ public interface EmmPositionService {
 
     List<EmmPosition> selectByPositionName(String positionName);
 
+    EmmPosition selectById(Integer id);
 }
