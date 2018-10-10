@@ -21,12 +21,16 @@
             </div>
             <div class="widget-content padded clearfix">
                 <div class="dataTables_filter">
-                    <form class="form-inline" action="menu/getAllMenu"
-                          method="post">
+                    <form class="form-inline"
+                          action="EmployeeServlet?method=getAllEmployee" method="post">
                         <div class="btn-group">
-                            <span>菜单名：</span>
-                            <input type="text" class="form-control" id="name" name="name"
-                                   value="" placeholder="名称">
+                            <span>工号：</span> <input type="text" class="form-control"
+                                                    id="emmployeeId" name="emmployeeId" value="">
+                        </div>
+                        <div class="btn-group">
+                            <span>姓名：</span> <input type="text" class="form-control"
+                                                    id="emmployeename" name="emmployeename"
+                                                    value="">
                         </div>
                         <div class="btn-group">
                             <button type="submit" class="btn btn-success">
