@@ -6,7 +6,9 @@ import net.wanho.service.EmployeeService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -51,6 +53,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         }else{
             employee.setStatus("0");
         }
+        employee.setUpdateTime(new Timestamp(new Date().getTime()));
         int updatedId;
         updatedId = employeeMapper.updateByPrimaryKeySelective(employee);
         return updatedId;
@@ -63,6 +66,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      */
     @Override
     public int updateEmployee(Employee employee) {
+        employee.setUpdateTime(new Timestamp(new Date().getTime()));
         return employeeMapper.updateByPrimaryKeySelective(employee);
     }
 
@@ -73,6 +77,8 @@ public class EmployeeServiceImpl implements EmployeeService {
      */
     @Override
     public int addEmployee(Employee employee) {
+        employee.setCreateTime(new Timestamp(new Date().getTime()));
+        employee.setUpdateTime(new Timestamp(new Date().getTime()));
         return employeeMapper.insertSelective(employee);
     }
 }

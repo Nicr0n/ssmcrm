@@ -44,6 +44,7 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public int addMenu(Menu menu) {
         menu.setCreateTime(new Timestamp(new Date().getTime()));
+        menu.setUpdateTime(new Timestamp(new  Date().getTime()));
         return menuMapper.insertSelective(menu);
     }
 

@@ -38,6 +38,7 @@ public class EmmPositionServiceImpl implements EmmPositionService {
     @Override
     public int addPosition(EmmPosition emmPosition) {
         emmPosition.setCreateTime(new Timestamp(new Date().getTime()));
+        emmPosition.setUpdateTime(new Timestamp(new Date().getTime()));
         return emmPositionMapper.insertSelective(emmPosition);
     }
 
