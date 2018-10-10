@@ -47,45 +47,45 @@
 										<th class="action-column">操作</th>
 									</tr>
 								</thead>
-								<tbody>
-									<tr>
-										<td>1</td>
-										<td>1</td>
-										<td>总监</td>
-										<td>2017-04-18 11:29</td>
-										<td>2017-04-18 11:29</td>
-										<td>
-											<div class="col-lg-20">
-												<button type="button" id="updatebtn" name="updatebtn"
-													class="btn btn-warning btn-sm" onclick="updateposition(1)">修改
-												</button>
-												<button type="button" id="delbtn" name="delbtn"
-													class="btn btn-danger btn-sm" onclick="deleteposition(1)">删除
-												</button>
-												<button type="button" id="linkbtn" name="linkbtn"
-													class="btn btn-success btn-sm" onclick="showselectmodel(1)">关联职位</button>
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<td>2</td>
-										<td>2</td>
-										<td>经理</td>
-										<td>2017-04-18 11:29</td>
-										<td>2017-04-18 11:29</td>
-										<td>
-											<div class="col-lg-20">
-												<button type="button" id="updatebtn" name="updatebtn"
-													class="btn btn-warning btn-sm" onclick="updateposition(2)">修改
-												</button>
-												<button type="button" id="delbtn" name="delbtn"
-													class="btn btn-danger btn-sm" onclick="deleteposition(2)">删除
-												</button>
-												<button type="button" id="linkbtn" name="linkbtn"
-													class="btn btn-success btn-sm" onclick="showselectmodel(2)">关联职位</button>
-											</div>
-										</td>
-									</tr>
+								<tbody class="table-main">
+									<%--<tr>--%>
+										<%--<td>1</td>--%>
+										<%--<td>1</td>--%>
+										<%--<td>总监</td>--%>
+										<%--<td>2017-04-18 11:29</td>--%>
+										<%--<td>2017-04-18 11:29</td>--%>
+										<%--<td>--%>
+											<%--<div class="col-lg-20">--%>
+												<%--<button type="button" id="updatebtn" name="updatebtn"--%>
+													<%--class="btn btn-warning btn-sm" onclick="updateposition(1)">修改--%>
+												<%--</button>--%>
+												<%--<button type="button" id="delbtn" name="delbtn"--%>
+													<%--class="btn btn-danger btn-sm" onclick="deleteposition(1)">删除--%>
+												<%--</button>--%>
+												<%--<button type="button" id="linkbtn" name="linkbtn"--%>
+													<%--class="btn btn-success btn-sm" onclick="showselectmodel(1)">关联职位</button>--%>
+											<%--</div>--%>
+										<%--</td>--%>
+									<%--</tr>--%>
+									<%--<tr>--%>
+										<%--<td>2</td>--%>
+										<%--<td>2</td>--%>
+										<%--<td>经理</td>--%>
+										<%--<td>2017-04-18 11:29</td>--%>
+										<%--<td>2017-04-18 11:29</td>--%>
+										<%--<td>--%>
+											<%--<div class="col-lg-20">--%>
+												<%--<button type="button" id="updatebtn" name="updatebtn"--%>
+													<%--class="btn btn-warning btn-sm" onclick="updateposition(2)">修改--%>
+												<%--</button>--%>
+												<%--<button type="button" id="delbtn" name="delbtn"--%>
+													<%--class="btn btn-danger btn-sm" onclick="deleteposition(2)">删除--%>
+												<%--</button>--%>
+												<%--<button type="button" id="linkbtn" name="linkbtn"--%>
+													<%--class="btn btn-success btn-sm" onclick="showselectmodel(2)">关联职位</button>--%>
+											<%--</div>--%>
+										<%--</td>--%>
+									<%--</tr>--%>
 								</tbody>
 							</table>
 						</div>
@@ -153,13 +153,43 @@
 	<!-- 这边是选择菜单的的模态框  end  -->
 
 	<script type="text/javascript">
-		$(function() {
-			$("#searchButton").click(submitForm);
-
-			function submitForm() {
-				$("#positionForm").submit();
-			}
-		});
+        $(document).ready(function () {
+            var pageNumber = 1;
+            getAllEmmPosition(pageNumber);
+        })
+        function getAllEmmPosition(page) {
+            $.ajax({
+                url:"http://localhost:8080/emmPosition/getAllEmmPosition",
+                data:{"pn":page},
+                success:function (data) {
+                    var temp = data.data.list;
+                    console.log(data);
+                    $(".table-main").html(" ");
+                    $.each(temp, function (index,value) {
+                        console.log(value)
+                        var str = '<tr><td>'+value.positionId+'</td>' +
+							'<td>'+value.positionLevel+'</td>' +
+							'<td>'+value.positionName+'</td>' +
+							'<td>'+timeFormatter(value.createTime)+'</td>' +
+							'<td>'+timeFormatter(value.updateTime)+'</td>' +
+							'<td><div class="col-lg-20"><button type="button" id="updatebtn" name="updatebtn"class="btn btn-warning btn-sm" onclick="updateposition(\''+value.positionName+'\')">修改</button>' +
+							'<button type="button" id="delbtn" name="delbtn"class="btn btn-danger btn-sm" onclick="deleteposition('+value.positionId+')">删除</button>' +
+							'<button type="button" id="linkbtn" name="linkbtn"class="btn btn-success btn-sm" onclick="showselectmodel('+value.positionId+')">关联职位</button></div></td></tr>'
+                        $(".table-main").append(str);
+                    });
+                    var str = (data.data.pageNum == 1 ? '' : '<li><a href="javascript:;" aria-label="Previous"  onclick="getAllEmmPosition('+1+')"><span aria-hidden="true">&laquo;</span></a></li>');
+                    $.each(data.data.navigatepageNums,function (index,value) {
+                        str += '<li class="'+(value == data.data.pageNum ? "active" : "" )+'"><a href="javascript:;" onclick="getAllEmmPosition('+value+')" >'+value+'</a></li>';
+                    })
+                    str += (data.data.pageNum == data.data.pages ? '' : '<li><a href="javascript:;" aria-label="Next" onclick="getAllEmmPosition('+data.data.pages+')"><span aria-hidden="true">&raquo;</span></a></li>');
+                    $(".table-nav").html(str);
+                }
+            })
+        }
+        function timeFormatter(time) {
+            var transTime = new Date( time );
+            return transTime.toLocaleDateString()+' '+transTime.toTimeString().substring(0,8);
+        }
 	</script>
 	<script type="text/javascript">
 		function deleteposition(positionId) {
@@ -189,9 +219,9 @@
 	</script>
 
 	<script type="text/javascript">
-		function updateposition(positionId) {
-			location.href = 'emmPosition/getUpdatePostionDetailById?positionId='
-					+ positionId;
+		function updateposition(positionName) {
+			location.href = '/jsp/systemSettings/position/update.jsp?positionName='
+					+ positionName;
 
 		}
 

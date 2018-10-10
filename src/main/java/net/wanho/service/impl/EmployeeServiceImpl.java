@@ -55,9 +55,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             employee.setStatus("0");
         }
         employee.setUpdateTime(new Timestamp(new Date().getTime()));
-        int updatedId;
-        updatedId = employeeMapper.updateByPrimaryKeySelective(employee);
-        return updatedId;
+        return employeeMapper.updateByPrimaryKeySelective(employee);
     }
 
     /**
