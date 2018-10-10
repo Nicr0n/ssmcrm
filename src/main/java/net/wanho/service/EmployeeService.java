@@ -15,4 +15,7 @@ public interface EmployeeService {
     int updateEmployee(Employee employee);
 
     int addEmployee(Employee employee);
+
+    List<Employee>search(Employee employee);
+
 }

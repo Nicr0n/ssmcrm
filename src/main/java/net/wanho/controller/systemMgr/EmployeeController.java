@@ -111,4 +111,27 @@ public class EmployeeController {
         result.setMsg("修改的员工的ID为："+updatedId);
         return result;
     }
+
+    /**
+     * 按照条件查找
+     * @param employee 包含条件的员工对象
+     * @return 带分页的员工列表
+     */
+    @ResponseBody
+    @RequestMapping("/search")
+    public CrmResult Search(@RequestBody Employee employee,@RequestParam(value = "pn",defaultValue = "1")Integer pn){
+        CrmResult crmResult = new CrmResult();
+        //分页插件引入
+        PageHelper.startPage(pn,6);
+        List<Employee> result = employeeService.search(employee);
+        PageInfo pageInfo = new PageInfo(result,5);
+        if (result.isEmpty()){
+            crmResult.setStatus(400);
+            crmResult.setMsg("no result");
+        }else{
+            crmResult.setMsg("success");
+            crmResult.setData(pageInfo);
+        }
+        return crmResult;
+    }
 }

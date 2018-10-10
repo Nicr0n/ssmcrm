@@ -4,6 +4,7 @@ import net.wanho.mapper.EmployeeMapper;
 import net.wanho.model.Employee;
 import net.wanho.service.EmployeeService;
 import org.springframework.stereotype.Service;
+import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
 import java.sql.Timestamp;
@@ -80,5 +81,28 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setCreateTime(new Timestamp(new Date().getTime()));
         employee.setUpdateTime(new Timestamp(new Date().getTime()));
         return employeeMapper.insertSelective(employee);
+    }
+
+    /**
+     * 按照条件查询
+     * @param employee 包含条件信息的累
+     * @return 员工列表
+     */
+    @Override
+    public List<Employee> search(Employee employee) {
+        Example example = new Example(Employee.class);
+        Example.Criteria criteria = example.createCriteria();
+        Integer employeeId = employee.getEmployeeId();
+        String employeeName = employee.getEmployeeName();
+        if (employeeId != null){
+            criteria.andEqualTo("employeeId",employeeId);
+        }
+        if (employeeName != null){
+            criteria.andEqualTo("employeeName",employeeName);
+        }
+        if (employeeId==null&&employeeName==null){
+            return selectAllEmployee();
+        }
+        return employeeMapper.selectByExample(example);
     }
 }
