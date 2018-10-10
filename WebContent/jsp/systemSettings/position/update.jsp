@@ -60,11 +60,15 @@
 	</div>
 	<script type="text/javascript">
 		$(function() {
-            getPositionInfo(<%= request.getParameter("positionName")%>);
+            getPositionInfo('<%= request.getParameter("positionName")%>');
         })
 		function getPositionInfo(positionName) {
 			$.ajax({
-				url : "/emmPosition/selectByPositionName"
+				url : "/emmPosition/selectByPositionName",
+				data : positionName ,
+				success : function (data) {
+					console.log(data);
+                }
 			})
         }
 			function positionCheck() {

@@ -172,7 +172,7 @@
 							'<td>'+value.positionName+'</td>' +
 							'<td>'+timeFormatter(value.createTime)+'</td>' +
 							'<td>'+timeFormatter(value.updateTime)+'</td>' +
-							'<td><div class="col-lg-20"><button type="button" id="updatebtn" name="updatebtn"class="btn btn-warning btn-sm" onclick="updateposition('+value.positionName+')">修改</button>' +
+							'<td><div class="col-lg-20"><button type="button" id="updatebtn" name="updatebtn"class="btn btn-warning btn-sm" onclick="updateposition(\''+value.positionName+'\')">修改</button>' +
 							'<button type="button" id="delbtn" name="delbtn"class="btn btn-danger btn-sm" onclick="deleteposition('+value.positionId+')">删除</button>' +
 							'<button type="button" id="linkbtn" name="linkbtn"class="btn btn-success btn-sm" onclick="showselectmodel('+value.positionId+')">关联职位</button></div></td></tr>'
                         $(".table-main").append(str);
