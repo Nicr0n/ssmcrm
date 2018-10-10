@@ -86,7 +86,8 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        getAllEmployee(1);
+        var pageNumber = 1;
+        getAllEmployee(pageNumber);
     })
     function getAllEmployee(page) {
         $.ajax({
@@ -113,6 +114,7 @@
                         +                 '</td></tr>'
                     $(".table-main").append(str);
                 });
+                pageNumber = data.data.pageNum;
                 var str = (data.data.pageNum == 1 ? '' : '<li><a href="javascript:;" aria-label="Previous"  onclick="getAllEmployee('+1+')"><span aria-hidden="true">&laquo;</span></a></li>');
                 $.each(data.data.navigatepageNums,function (index,value) {
                     str += '<li class="'+(value == data.data.pageNum ? "active" : "" )+'"><a href="javascript:;" onclick="getAllEmployee('+value+')" >'+value+'</a></li>';
@@ -133,7 +135,7 @@
                 console.log(data);
                 if (data.status==200) {
                     alert(data.msg);
-                    getAllEmployee(1);
+                    getAllEmployee(pageNumber);
                 }
             }
         })
