@@ -56,9 +56,6 @@
                             <select id="manage-position_id" class="form-control"
                                     name="manage-position_id">
                                 <option value="0">选择职位</option>
-                                <option value="12">总监</option>
-                                <option value="13">经理</option>
-                                <option value="14">普通员工</option>
                             </select>
                         </div>
                         <div class="help-block help-block-error"></div>
@@ -109,8 +106,24 @@
 </div>
 <script type="text/javascript">
     $(function () {
-        selectEmployeeById(<%= request.getParameter("employeeId")%>);
+        getAllEmmPosition();
+
     });
+    function getAllEmmPosition() {
+        $.ajax({
+            url : "/emmPosition/getAllEmmPosition",
+            success : function (data) {
+                data =data.data;
+                console.log(data);
+                $("#manage-position_id").html('<option value="0">选择职位</option>');
+                $.each(data.list,function (index , value) {
+                    var str = '<option value="'+value.positionId+'">'+value.positionName+'</option>'
+                    $("#manage-position_id").append(str);
+                })
+                selectEmployeeById(<%= request.getParameter("employeeId")%>);
+            }
+        })
+    }
     function selectEmployeeById(employeeId) {
         $.ajax({
             url : 'employee/findEmployeeById/'+ employeeId,
@@ -198,6 +211,7 @@
             }
         });
     }
+
 </script>
 </body>
 

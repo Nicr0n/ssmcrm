@@ -70,9 +70,6 @@
                             <select id="manage-position_id" class="form-control"
                                     name="manage-position_id">
                                 <option value="0">选择职位</option>
-                                <option value="12">总监</option>
-                                <option value="13">经理</option>
-                                <option value="14">普通员工</option>
                             </select>
                         </div>
                         <div class="help-block help-block-error"></div>
@@ -202,6 +199,22 @@
             }
         });
     }
+    function getAllEmmPosition() {
+        $.ajax({
+            url : "/emmPosition/getAllEmmPosition",
+            success : function (data) {
+                data =data.data;
+                $("#manage-position_id").html('<option value="0">选择职位</option>');
+                $.each(data.list,function (index , value) {
+                    var str = '<option value="'+value.positionId+'">'+value.positionName+'</option>'
+                    $("#manage-position_id").append(str)
+                })
+            }
+        })
+    }
+    $(function () {
+        getAllEmmPosition();
+    })
 </script>
 </body>
 </html>
