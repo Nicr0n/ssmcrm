@@ -72,4 +72,9 @@ public class MenuServiceImpl implements MenuService {
         menu.setUpdateTime(new Timestamp(new Date().getTime()));
         return menuMapper.updateByPrimaryKeySelective(menu);
     }
+
+    @Override
+    public List<Menu> queryWithBindPosition() {
+        return menuMapper.queryWithBindPosition();
+    }
 }

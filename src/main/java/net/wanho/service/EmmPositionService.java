@@ -14,4 +14,9 @@ public interface EmmPositionService {
     Boolean deletePostionCheck(int id);
 
     int updatePosition(EmmPosition emmPosition);
+
+    int deletePosition(EmmPosition emmPosition);
+
+    List<EmmPosition> selectByPositionName(String positionName);
+
 }

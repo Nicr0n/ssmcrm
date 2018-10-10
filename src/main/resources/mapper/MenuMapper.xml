@@ -1,17 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="net.wanho.mapper.MenuMapper">
-  <resultMap id="BaseResultMap" type="net.wanho.model.Menu">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="MENU_ID" jdbcType="INTEGER" property="menuId" />
-    <result column="MENU_NAME" jdbcType="VARCHAR" property="menuName" />
-    <result column="MENU_URL" jdbcType="VARCHAR" property="menuUrl" />
-    <result column="PICTURES" jdbcType="VARCHAR" property="pictures" />
-    <result column="STATUS" jdbcType="VARCHAR" property="status" />
-    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="PARENT_MENU_ID" jdbcType="INTEGER" property="parentMenuId" />
-  </resultMap>
+    <resultMap id="BaseResultMap" type="net.wanho.model.Menu">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="MENU_ID" jdbcType="INTEGER" property="menuId"/>
+        <result column="MENU_NAME" jdbcType="VARCHAR" property="menuName"/>
+        <result column="MENU_URL" jdbcType="VARCHAR" property="menuUrl"/>
+        <result column="PICTURES" jdbcType="VARCHAR" property="pictures"/>
+        <result column="STATUS" jdbcType="VARCHAR" property="status"/>
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="PARENT_MENU_ID" jdbcType="INTEGER" property="parentMenuId"/>
+    </resultMap>
+
+    <resultMap id="ResultMapBindPosition" type="net.wanho.model.Menu">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="MENU_ID" jdbcType="INTEGER" property="menuId"/>
+        <result column="MENU_NAME" jdbcType="VARCHAR" property="menuName"/>
+        <result column="MENU_URL" jdbcType="VARCHAR" property="menuUrl"/>
+        <result column="PICTURES" jdbcType="VARCHAR" property="pictures"/>
+        <result column="STATUS" jdbcType="VARCHAR" property="status"/>
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="PARENT_MENU_ID" jdbcType="INTEGER" property="parentMenuId"/>
+        <collection property="bindPosition" column="MENU_ID" ofType="net.wanho.model.PositionMenuRelations">
+            <id property="relationId" column="RELATION_ID"/>
+            <result property="positionId" column="POSITION_ID"/>
+            <result property="menuId" column="MENU_ID"/>
+        </collection>
+    </resultMap>
+
+    <select id="queryWithBindPosition" parameterType="java.lang.Integer" resultMap="ResultMapBindPosition">
+        SELECT m.MENU_ID,
+               m.MENU_NAME,
+               m.MENU_URL,
+               m.`STATUS`,
+               m.CREATE_TIME,
+               m.UPDATE_TIME,
+               m.PARENT_MENU_ID,
+               p.POSITION_ID,
+               p.RELATION_ID
+        FROM menu m
+                 LEFT JOIN position_menu_relations p ON m.MENU_ID = p.MENU_ID
+    </select>
 </mapper>

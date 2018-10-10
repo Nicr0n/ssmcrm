@@ -1,7 +1,9 @@
 package net.wanho.model;
 
 import java.util.Date;
+import java.util.List;
 import javax.persistence.*;
+import javax.swing.text.Position;
 
 @Table(name = "`menu`")
 public class Menu {
@@ -54,6 +56,10 @@ public class Menu {
     @Column(name = "`PARENT_MENU_ID`")
     private Integer parentMenuId;
 
+    /**
+     * 绑定的职位
+     */
+    private List<PositionMenuRelations> bindPosition;
     /**
      * 获取菜单 编号
      *
@@ -196,5 +202,13 @@ public class Menu {
      */
     public void setParentMenuId(Integer parentMenuId) {
         this.parentMenuId = parentMenuId;
+    }
+
+    public List<PositionMenuRelations> getBindPosition() {
+        return bindPosition;
+    }
+
+    public void setBindPosition(List<PositionMenuRelations> bindPosition) {
+        this.bindPosition = bindPosition;
     }
 }

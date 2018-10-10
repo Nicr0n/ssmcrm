@@ -14,4 +14,6 @@ public interface MenuService {
     int deleteMenuById(int id);
 
     int updateMenu(Menu menu);
+
+    List<Menu> queryWithBindPosition();
 }

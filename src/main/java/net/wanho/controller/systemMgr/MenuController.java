@@ -108,4 +108,17 @@ public class MenuController {
         crmResult.setMsg("修改的菜单的主键为:"+insertedId);
         return crmResult;
     }
+
+    /**
+     * 查询菜单 绑定职位
+     * @return
+     */
+    @RequestMapping("/queryWithBindPosition")
+    @ResponseBody
+    public CrmResult queryWithBindPosition(){
+        CrmResult crmResult = new CrmResult();
+        crmResult.setData(menuService.queryWithBindPosition());
+        crmResult.setMsg("success");
+        return crmResult;
+    }
 }

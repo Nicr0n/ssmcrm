@@ -85,4 +85,29 @@ public class EmmPositionServiceImpl implements EmmPositionService {
         emmPosition.setUpdateTime(new Timestamp(new Date().getTime()));
         return emmPositionMapper.updateByPrimaryKeySelective(emmPosition);
     }
+
+    /**
+     * 删除职位
+     * @param emmPosition 待删除的职位信息
+     * @return 被删除的职位的ID
+     */
+    @Override
+    public int deletePosition(EmmPosition emmPosition) {
+        return emmPositionMapper.delete(emmPosition);
+    }
+
+    /**
+     * 按照职位名称查找职位
+     * @param positionName 职位名称
+     * @return 职位信息
+     */
+    @Override
+    public List<EmmPosition> selectByPositionName(String positionName) {
+        Example example = new Example(EmmPosition.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("positionName",positionName);
+        return emmPositionMapper.selectByExample(example);
+    }
+
+
 }

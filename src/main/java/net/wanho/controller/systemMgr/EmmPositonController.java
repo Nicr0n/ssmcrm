@@ -85,8 +85,12 @@ public class EmmPositonController {
     }
 
     @RequestMapping("/deletePosition")
-    public String deletePosition() {
-        return "redirect:getAllEmmPosition";
+    @ResponseBody
+    public CrmResult deletePosition(@RequestBody EmmPosition emmPosition) {
+        CrmResult crmResult = new CrmResult();
+        int deletedId = emmPositionService.deletePosition(emmPosition);
+        crmResult.setMsg("被删除的职位的ID为:"+deletedId);
+        return crmResult;
     }
 
     @RequestMapping("/getUpdatePostionDetailById")
@@ -116,5 +120,19 @@ public class EmmPositonController {
     @RequestMapping("/positionLinks")
     public String positionLinks() {
         return "redirect:getAllEmmPosition";
+    }
+
+    /**
+     * 按照职位名称查找职位
+     * @param positionName 职位名称
+     * @return 职位信息
+     */
+    @ResponseBody
+    @RequestMapping("/selectByPositionName")
+    public CrmResult selectByPositionName(@RequestBody String positionName){
+        CrmResult crmResult = new CrmResult();
+        crmResult.setMsg("success");
+        crmResult.setData(emmPositionService.selectByPositionName(positionName));
+        return crmResult;
     }
 }
