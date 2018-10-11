@@ -83,7 +83,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     /**
      * 按照条件查询
-     * @param employee 包含条件信息的累
+     * @param employee 包含条件信息的员工
      * @return 员工列表
      */
     @Override
