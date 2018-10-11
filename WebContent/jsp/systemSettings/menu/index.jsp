@@ -20,18 +20,18 @@
 				</div>
 				<div class="widget-content padded clearfix">
 					<div class="dataTables_filter">
-						<form class="form-inline">
+						<div class="form-inline">
 							<div class="btn-group">
 							<span>菜单名：</span>
 								<input type="text" class="form-control" id="name" name="name"
 									value="" placeholder="名称">
 							</div>
 							<div class="btn-group">
-								<button class="btn btn-success" onclick="selectMenuByName()">
+								<div class="btn btn-success" onclick="selectMenuByName()">
 									<i class="glyphicon glyphicon-search"></i> 搜索
-								</button>
+								</div>
 							</div>
-						</form>
+						</div>
 					</div>
 					<div id="w0" class="grid-view">
 						<div class="table-responsive">

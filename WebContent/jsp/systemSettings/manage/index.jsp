@@ -21,7 +21,7 @@
             </div>
             <div class="widget-content padded clearfix">
                 <div class="dataTables_filter">
-                    <form class="form-inline">
+                    <div class="form-inline">
                         <div class="btn-group">
                             <span>工号：</span> <input type="text" class="form-control"
                                                     id="emmployeeId" name="emmployeeId" value="">
@@ -32,11 +32,11 @@
                                                     value="">
                         </div>
                         <div class="btn-group">
-                            <button type="submit" class="btn btn-success">
+                            <div class="btn btn-success" onclick="searchEmployee()">
                                 <i class="glyphicon glyphicon-search"></i> 搜索
-                            </button>
+                            </div>
                         </div>
-                    </form>
+                    </div>
                 </div>
                 <div id="w0" class="grid-view">
                     <div class="table-responsive">
@@ -94,38 +94,60 @@
             url:"http://localhost:8080/employee/getAllEmployee",
             data:{"pn":page},
             success:function (data) {
-                var temp = data.data.list;
                 console.log(data);
-                $(".table-main").html(" ");
-                $.each(temp, function (index,value) {
-                    console.log(value)
-                    var str = '<tr data-key="1"><td>'+value.employeeId+'</td>' +
-                        '<td>'+value.employeeName+'</td>' +
-                        '<td>'+value.department.departmentName+'</td>' +
-                        '<td>'+value.emmPosition.positionName+'</td>' +
-                        '<td>'+value.phone+'</td>' +
-                        '<td>'+value.email+'</td>' +
-                        '<td>'+(value.status==0 ? "禁用" : "正常")+'</td>' +
-                        '<td>'+timeFormatter(value.createTime)+'</td>' +
-                        '<td>'+timeFormatter(value.updateTime)+'</td>' +
-                        '<td>'+(value.status==0 ? '<button type="button" id="recevorbtn" name="recevorbtn" class="btn btn-success btn-sm" onclick="updateEmployeeStatus('+value.employeeId+')">恢复正常</button>' +
-                            '<button type="button" id="recevorbtn3" name="recevorbtn3" class="btn btn-info btn-sm" onclick="updateEmployeeDetail('+value.employeeId+')">修改用户信息</button>' :
-                        '<button type="button" id="recevorbtn2" name="recevorbtn2" class="btn btn-danger btn-sm" onclick="updateEmployeeStatus('+value.employeeId+')">禁用账户</button>')
-                        +                 '</td></tr>'
-                    $(".table-main").append(str);
-                });
-                pageNumber = data.data.pageNum;
-                var str = (data.data.pageNum == 1 ? '' : '<li><a href="javascript:;" aria-label="Previous"  onclick="getAllEmployee('+1+')"><span aria-hidden="true">&laquo;</span></a></li>');
-                $.each(data.data.navigatepageNums,function (index,value) {
-                    str += '<li class="'+(value == data.data.pageNum ? "active" : "" )+'"><a href="javascript:;" onclick="getAllEmployee('+value+')" >'+value+'</a></li>';
-                })
-                str += (data.data.pageNum == data.data.pages ? '' : '<li><a href="javascript:;" aria-label="Next" onclick="getAllEmployee('+data.data.pages+')"><span aria-hidden="true">&raquo;</span></a></li>');
-                $(".table-nav").html(str);
+                tableData(data);
             }
         })
     }
-    
-    
+    function searchEmployee(){
+        if($("#emmployeeId").val()==""&&$("#emmployeeId").val()==""){
+            getAllEmployee(1);
+            return ;
+        }
+        var data ={};
+        data.emmployeeId=$("#emmployeeId").val();
+        data.employeeName=$("#emmployeeId").val()
+        $.ajax({
+            type : 'post',
+            contentType : "application/json;charset=UTF-8",
+            url : "employee/search",
+            data:JSON.stringify(data),
+            dataType:"json",
+            success : function(data) {
+                console.log(data)
+                tableData(data);
+            }
+        })
+    }
+    function tableData(data) {
+        var temp = data.data.list;
+        $(".table-main").html(" ");
+        $(".table-nav").html(" ");
+        $.each(temp, function (index,value) {
+            console.log(value)
+            var str = '<tr data-key="1"><td>'+value.employeeId+'</td>' +
+                '<td>'+value.employeeName+'</td>' +
+                '<td>'+value.department.departmentName+'</td>' +
+                '<td>'+value.emmPosition.positionName+'</td>' +
+                '<td>'+value.phone+'</td>' +
+                '<td>'+value.email+'</td>' +
+                '<td>'+(value.status==0 ? "禁用" : "正常")+'</td>' +
+                '<td>'+timeFormatter(value.createTime)+'</td>' +
+                '<td>'+timeFormatter(value.updateTime)+'</td>' +
+                '<td>'+(value.status==0 ? '<button type="button" id="recevorbtn" name="recevorbtn" class="btn btn-success btn-sm" onclick="updateEmployeeStatus('+value.employeeId+')">恢复正常</button>' +
+                    '<button type="button" id="recevorbtn3" name="recevorbtn3" class="btn btn-info btn-sm" onclick="updateEmployeeDetail('+value.employeeId+')">修改用户信息</button>' :
+                    '<button type="button" id="recevorbtn2" name="recevorbtn2" class="btn btn-danger btn-sm" onclick="updateEmployeeStatus('+value.employeeId+')">禁用账户</button>')
+                +                 '</td></tr>'
+            $(".table-main").append(str);
+        });
+        pageNumber = data.data.pageNum;
+        var str = (data.data.pageNum == 1 ? '' : '<li><a href="javascript:;" aria-label="Previous"  onclick="getAllEmployee('+1+')"><span aria-hidden="true">&laquo;</span></a></li>');
+        $.each(data.data.navigatepageNums,function (index,value) {
+            str += '<li class="'+(value == data.data.pageNum ? "active" : "" )+'"><a href="javascript:;" onclick="getAllEmployee('+value+')" >'+value+'</a></li>';
+        })
+        str += (data.data.pageNum == data.data.pages ? '' : '<li><a href="javascript:;" aria-label="Next" onclick="getAllEmployee('+data.data.pages+')"><span aria-hidden="true">&raquo;</span></a></li>');
+        $(".table-nav").html(str);
+    }
     
     
     function updateEmployeeStatus(employeeId) {

@@ -18,10 +18,10 @@
 						class="icon-reply"></i> </a>
 				</div>
 				<div class="widget-content padded clearfix">
-					<form id="addPositionFrom" class="form-horizontal" action="emmPosition/addPosition" method="post">
+					<div id="addPositionFrom" class="form-horizontal">
 
 						<div class="form-group field-manage-name required">
-							<label class="control-label col-sm-2" for="manage-name">名称</label>
+							<label class="control-label col-sm-2" for="positionname">名称</label>
 							<div class="col-sm-8">
 								<input type="text" id="positionname" class="form-control"
 									name="positionname" placeholder="职位名称">
@@ -30,7 +30,7 @@
 						</div>
 						
 						<div class="form-group field-manage-department_id required">
-							<label class="control-label col-sm-2" for="manage-department_id">等级</label>
+							<label class="control-label col-sm-2" for="positionLevel">等级</label>
 							<div class="col-sm-8">
 								<select id="positionLevel" class="form-control"	name="positionLevel">
 									<option value="0">选择等级</option>
@@ -45,12 +45,12 @@
 						<div class="form-group">
 							<label class="col-sm-2 control-label"></label>
 							<div class="col-lg-10">
-								<button type="button" id="mysubmit" class="btn btn-success">创建</button>
+								<button type="button" onclick="positionCheck()" class="btn btn-success">创建</button>
 								<button type="button" class="btn btn-default"
 									onClick="history.go(-1);">返回</button>
 							</div>
 						</div>
-					</form>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -58,41 +58,50 @@
 	<script type="text/javascript">
 		$(function() {
 
-			$("#mysubmit").click(positionCheck);
+        })
 			function positionCheck() {
 				var positionLevel = $("#positionLevel").val();
 				if( 0 == positionLevel){
 				 	alert("必须选择职位等级！");
 				 	return;
 				}
-				var positionName = $("#positionName").val();
-				var data = {};
-				data.positionName = positionName;
-				var flag = false;
 				$.ajax({
-					type : 'post',
+                    type : 'post',
+                    contentType : "application/json;charset=UTF-8",
 					url : 'emmPosition/positionNameCheck',
-					data : data,
-					cache : false,
-					sync : true,
-					success : function(msg) {
-						var json = JSON.parse(msg);
-						if (0 == json.status) {
-							alert(json.msg);
-						} else {
-							//alert("提交表单");
-							$("#addPositionFrom").submit();
+					data : $("#positionname").val(),
+					success : function(data) {
+						console.log(data)
+						if (data.msg) {
+                            addPosition()
+						}else{
+						    alert("名称已存在");
 						}
-
 					},
 					error : function() {
 						alert("请求失败!");
 					}
 				});
-
 			}
-
-		});
+			function addPosition() {
+		    	var data = {};
+		    	data.positionName=$("#positionname").val();
+                data.positionLevel=$("#positionLevel").val();
+                $.ajax({
+                    type : 'post',
+                    contentType : "application/json;charset=UTF-8",
+                    url : 'emmPosition/addPosition',
+                    data : JSON.stringify(data),
+                    success : function(data) {
+                        console.log(data)
+						alert(data.msg);
+                        location.href="jsp/systemSettings/position/index.jsp";
+                    },
+                    error : function() {
+                        alert("请求失败!");
+                    }
+                });
+            }
 	</script>
 </body>
 

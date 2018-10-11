@@ -15,24 +15,22 @@
 				<div class="heading clearfix">
 					<i class="icon-table"></i> 职位设置 <a
 						class="btn btn-sm btn-primary pull-right weiBoxs-dialog"
-						href="emmPosition/addPosition" dialog-title="添加职位"><i
+						href="/jsp/systemSettings/position/create.jsp" dialog-title="添加职位"><i
 						class="icon-plus"></i> 添加职位</a>
 				</div>
 				<div class="widget-content padded clearfix">
 					<div class="dataTables_filter">
-						<form id="positionForm" class="form-inline"
-							action="emmPosition/getAllEmmPosition"
-							method="post">
+						<div id="positionForm" class="form-inline">
 							<div class="btn-group">
 								<span>职位名：</span> <input type="text" class="form-control"
 									id="positionname" name="positionname" value="">
 							</div>
 							<div class="btn-group">
-								<button type="button" id="searchButton" class="btn btn-success">
+								<div type="button" class="btn btn-success" onclick="searchPosition()">
 									<i class="glyphicon glyphicon-search"></i> 搜索
-								</button>
+								</div>
 							</div>
-						</form>
+						</div>
 					</div>
 					<div id="w0" class="grid-view">
 						<div class="table-responsive">
@@ -138,24 +136,8 @@
 								<th>上级菜单</th>
 							</tr>
 						</thead>
-						<tbody>
-							<tr>
-								<td><input type="checkbox" name="checkedemployee"
-									id="checkedbox1" value="1" onclick="movetochecked(1)"
-									style="opacity: 1;" /></td>
-								<td>系统管理</td>
-								<td>url</td>
-								<td></td>
-							</tr>
+						<tbody class="modal-table">
 
-							<tr>
-								<td><input type="checkbox" name="checkedemployee"
-									id="checkedbox1" value="2" onclick="movetochecked(2)"
-									style="opacity: 1;" /></td>
-								<td>员工管理</td>
-								<td>url</td>
-								<td>系统设置</td>
-							</tr>
 						</tbody>
 					</table>
 				</div>
@@ -174,74 +156,127 @@
 	<script type="text/javascript">
         $(document).ready(function () {
             var pageNumber = 1;
+            var allMenu = [];
             getAllEmmPosition(pageNumber);
+            queryWithBindPosition();
         })
+        function queryWithBindPosition() {
+            $.ajax({
+                url : "/menu/queryWithBindPosition",
+                success : function (data){
+                    console.log(data)
+                    allMenu = data.data;
+                }
+            })
+        }
         function getAllEmmPosition(page) {
             $.ajax({
                 url:"http://localhost:8080/emmPosition/getAllEmmPosition",
                 data:{"pn":page},
                 success:function (data) {
-                    var temp = data.data.list;
-                    console.log(data);
-                    $(".table-main").html(" ");
-                    $.each(temp, function (index,value) {
-                        console.log(value)
-                        var str = '<tr><td>'+value.positionId+'</td>' +
-							'<td>'+value.positionLevel+'</td>' +
-							'<td>'+value.positionName+'</td>' +
-							'<td>'+timeFormatter(value.createTime)+'</td>' +
-							'<td>'+timeFormatter(value.updateTime)+'</td>' +
-							'<td><div class="col-lg-20"><button type="button" id="updatebtn" name="updatebtn"class="btn btn-warning btn-sm" onclick="updateposition(\''+value.positionName+'\')">修改</button>' +
-							'<button type="button" id="delbtn" name="delbtn"class="btn btn-danger btn-sm" onclick="deleteposition('+value.positionId+')">删除</button>' +
-							'<button type="button" id="linkbtn" name="linkbtn"class="btn btn-success btn-sm" onclick="showselectmodel('+value.positionId+')">关联职位</button></div></td></tr>'
-                        $(".table-main").append(str);
-                    });
-                    var str = (data.data.pageNum == 1 ? '' : '<li><a href="javascript:;" aria-label="Previous"  onclick="getAllEmmPosition('+1+')"><span aria-hidden="true">&laquo;</span></a></li>');
-                    $.each(data.data.navigatepageNums,function (index,value) {
-                        str += '<li class="'+(value == data.data.pageNum ? "active" : "" )+'"><a href="javascript:;" onclick="getAllEmmPosition('+value+')" >'+value+'</a></li>';
-                    })
-                    str += (data.data.pageNum == data.data.pages ? '' : '<li><a href="javascript:;" aria-label="Next" onclick="getAllEmmPosition('+data.data.pages+')"><span aria-hidden="true">&raquo;</span></a></li>');
-                    $(".table-nav").html(str);
+                    tableData(data);
                 }
             })
         }
+        function tableData(data) {
+            var temp = data.data.list;
+            console.log(data);
+            $(".table-main").html(" ");
+            $(".table-nav").html(" ");
+            $.each(temp, function (index,value) {
+                console.log(value)
+                var str = '<tr><td>'+value.positionId+'</td>' +
+                    '<td>'+value.positionLevel+'</td>' +
+                    '<td>'+value.positionName+'</td>' +
+                    '<td>'+timeFormatter(value.createTime)+'</td>' +
+                    '<td>'+timeFormatter(value.updateTime)+'</td>' +
+                    '<td><div class="col-lg-20"><button type="button" id="updatebtn" name="updatebtn"class="btn btn-warning btn-sm" onclick="updateposition('+value.positionId+')">修改</button>' +
+                    '<button type="button" id="delbtn" name="delbtn"class="btn btn-danger btn-sm" onclick="deletePositionCheck('+value.positionId+')">删除</button>' +
+                    '<button type="button" id="linkbtn" name="linkbtn"class="btn btn-success btn-sm" onclick="showselectmodel('+value.positionId+')">关联职位</button></div></td></tr>'
+                $(".table-main").append(str);
+            });
+            var str = (data.data.pageNum == 1 ? '' : '<li><a href="javascript:;" aria-label="Previous"  onclick="getAllEmmPosition('+1+')"><span aria-hidden="true">&laquo;</span></a></li>');
+            $.each(data.data.navigatepageNums,function (index,value) {
+                str += '<li class="'+(value == data.data.pageNum ? "active" : "" )+'"><a href="javascript:;" onclick="getAllEmmPosition('+value+')" >'+value+'</a></li>';
+            })
+            str += (data.data.pageNum == data.data.pages ? '' : '<li><a href="javascript:;" aria-label="Next" onclick="getAllEmmPosition('+data.data.pages+')"><span aria-hidden="true">&raquo;</span></a></li>');
+            $(".table-nav").html(str);
+        }
+
         function timeFormatter(time) {
             var transTime = new Date( time );
             return transTime.toLocaleDateString()+' '+transTime.toTimeString().substring(0,8);
         }
 	</script>
 	<script type="text/javascript">
-		function deleteposition(positionId) {
-			var data = {};
-			data.positionId = positionId;
+		function deletePositionCheck(positionId) {
 			$.ajax({
-				type : 'post',
-				url : 'emmPosition/deletePostionCheck',
-				data : data,
-				cache : false,
-				sync : true,
-				success : function(msg) {
-					var json = JSON.parse(msg);
-					//alert(json.status);
-					if (0 == json.status) {
-						alert(json.msg);
-					} else {
-						location.href = 'emmPosition/deletePosition?positionId='
-								+ positionId;
-					}
+				url : 'emmPosition/deletePostionCheck/'+positionId,
+				success : function(data) {
+                    if (data.msg=="true") {
+                        deletePosition(positionId);
+                    }else{
+                        alert("不能被删除")
+                    }
+
 				},
 				error : function() {
 					alert("请求失败");
 				}
 			});
 		}
-	</script>
 
-	<script type="text/javascript">
-		function updateposition(positionName) {
-			location.href = '/jsp/systemSettings/position/update.jsp?positionName='
-					+ positionName;
+		function deletePosition(positionId) {
+            $.ajax({
+                type : 'post',
+                contentType : "application/json;charset=UTF-8",
+                url : 'emmPosition/deletePosition',
+                data : JSON.stringify({'positionId':positionId}),
+                success : function(data) {
+                    console.log(data)
 
+                },
+                error : function() {
+                    alert("请求失败");
+                }
+            });
+        }
+		function searchPosition() {
+            if ($("#positionname").val()==""){
+                getAllEmmPosition(1);
+                return ;
+            }
+
+            $.ajax({
+                type : 'post',
+                contentType : "application/json;charset=UTF-8",
+                url : "emmPosition/selectByPositionName",
+                data : $("#positionname").val(),
+                success : function (data) {
+                    $(".table-main").html(" ");
+                    $(".table-nav").html(" ");
+                    $.each(data.data, function (index,value) {
+                        console.log(value)
+                        var str = '<tr><td>'+value.positionId+'</td>' +
+                            '<td>'+value.positionLevel+'</td>' +
+                            '<td>'+value.positionName+'</td>' +
+                            '<td>'+timeFormatter(value.createTime)+'</td>' +
+                            '<td>'+timeFormatter(value.updateTime)+'</td>' +
+                            '<td><div class="col-lg-20"><button type="button" id="updatebtn" name="updatebtn"class="btn btn-warning btn-sm" onclick="updateposition('+value.positionId+')">修改</button>' +
+                            '<button type="button" id="delbtn" name="delbtn"class="btn btn-danger btn-sm" onclick="deleteposition('+value.positionId+')">删除</button>' +
+                            '<button type="button" id="linkbtn" name="linkbtn"class="btn btn-success btn-sm" onclick="showselectmodel('+value.positionId+')">关联职位</button></div></td></tr>'
+                        $(".table-main").append(str);
+                    });
+                    var str = '<li class="active"><a href="javascript:;" onclick="getAllEmmPosition('+value+')" >'+value+'</a></li>';
+                    $(".table-main").html(str);
+                }
+
+            })
+        }
+
+		function updateposition(positionId) {
+			location.href = '/jsp/systemSettings/position/update.jsp?positionId='
+					+ positionId;
 		}
 
 		function submittochange() {
@@ -272,7 +307,25 @@
 		function showselectmodel(positionId) {
 			$("#myModal").modal("show");
 			$("#referencepositionId").val(positionId);
+            $(".modal-table").html(" ")
+            $.each(allMenu,function (index , value) {
+                var str = '<tr><td><input type="checkbox" name="checkedemployee"id="checkedbox1" value="'+ value.menuId +'1" onclick="movetochecked(1)"style="opacity: 1;" '+(isBind(positionId,value)?"checked":"")+' /></td>' +
+                    '<td>'+value.menuName+'</td>' +
+                    '<td>'+value.menuUrl+'</td>' +
+                    '<td>'+(value.parentMenuId==null? "":value.parentMenuId)+'</td></tr>'
+                $(".modal-table").append(str)
+            })
 		}
+		function isBind(positionId,value) {
+		    var flag = false;
+            $.each(value.bindPosition,function (index , val) {
+                if (val.positionId==positionId){
+                    flag=true;
+                    return;
+                }
+            })
+            return flag;
+        }
 	</script>
 
 	<script type="text/javascript">
@@ -288,33 +341,33 @@
 		}
 	</script>
 
-	<script type="text/javascript">
-		$.extend($.fn.dataTable.defaults, {
-			"searching" : false,
-			"ordering" : false
-		});
-		$('#example').DataTable({
-			language : {
-				"sProcessing" : "处理中...",
-				"sLengthMenu" : "显示 _MENU_ 项结果",
-				"sZeroRecords" : "没有匹配结果",
-				"sInfo" : "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
-				"sInfoEmpty" : "显示第 0 至 0 项结果，共 0 项",
-				"sInfoFiltered" : "(由 _MAX_ 项结果过滤)",
-				"sInfoPostFix" : "",
-				"sSearch" : "搜索:",
-				"sUrl" : "",
-				"sEmptyTable" : "表中数据为空",
-				"sLoadingRecords" : "载入中...",
-				"sInfoThousands" : ",",
-				"oPaginate" : {
-					"sFirst" : "首页",
-					"sPrevious" : "上页",
-					"sNext" : "下页",
-					"sLast" : "末页"
-				}
-			}
-		});
-	</script>
+	<%--<script type="text/javascript">--%>
+		<%--$.extend($.fn.dataTable.defaults, {--%>
+			<%--"searching" : false,--%>
+			<%--"ordering" : false--%>
+		<%--});--%>
+		<%--$('#example').DataTable({--%>
+			<%--language : {--%>
+				<%--"sProcessing" : "处理中...",--%>
+				<%--"sLengthMenu" : "显示 _MENU_ 项结果",--%>
+				<%--"sZeroRecords" : "没有匹配结果",--%>
+				<%--"sInfo" : "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",--%>
+				<%--"sInfoEmpty" : "显示第 0 至 0 项结果，共 0 项",--%>
+				<%--"sInfoFiltered" : "(由 _MAX_ 项结果过滤)",--%>
+				<%--"sInfoPostFix" : "",--%>
+				<%--"sSearch" : "搜索:",--%>
+				<%--"sUrl" : "",--%>
+				<%--"sEmptyTable" : "表中数据为空",--%>
+				<%--"sLoadingRecords" : "载入中...",--%>
+				<%--"sInfoThousands" : ",",--%>
+				<%--"oPaginate" : {--%>
+					<%--"sFirst" : "首页",--%>
+					<%--"sPrevious" : "上页",--%>
+					<%--"sNext" : "下页",--%>
+					<%--"sLast" : "末页"--%>
+				<%--}--%>
+			<%--}--%>
+		<%--});--%>
+	<%--</script>--%>
 </body>
 </html>

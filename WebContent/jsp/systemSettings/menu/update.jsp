@@ -16,7 +16,8 @@
                     class="icon-reply"></i></a>
             </div>
             <div class="widget-content padded clearfix">
-                <form id="updateMenuFrom" class="form-horizontal" action="menu/updateMenu" method="post">
+                <form id="updateMenuFrom" class="form-horizontal">
+                    <input type="hidden" id="menu-id">
                     <div class="form-group field-menu-parent_id required">
                         <label class="control-label col-sm-2" for="menu-parent_id">父级</label>
                         <div class="col-sm-8">
@@ -33,8 +34,7 @@
                         <label class="control-label col-sm-2" for="menu-name">名称</label>
 
                         <div class="col-sm-8">
-                            <input type="text" id="menu-name" class="form-control" name="menu-name" maxlength="20"
-                                   value="系统管理">
+                            <input type="text" id="menu-name" class="form-control" name="menu-name" maxlength="20">
                         </div>
                         <div class="help-block help-block-error"></div>
                     </div>
@@ -42,8 +42,7 @@
                     <div class="form-group field-menu-url required">
                         <label class="control-label col-sm-2" for="menu-url">地址</label>
                         <div class="col-sm-8">
-                            <input type="text" id="menu-url" class="form-control" name="menu-url" maxlength="50"
-                                   value="url">
+                            <input type="text" id="menu-url" class="form-control" name="menu-url" maxlength="50">
                         </div>
                         <div class="help-block help-block-error"></div>
                     </div>
@@ -51,8 +50,7 @@
                     <div class="form-group field-menu-icon">
                         <label class="control-label col-sm-2" for="menu-icon">图标</label>
                         <div class="col-sm-8">
-                            <input type="text" id="menu-icon" class="form-control" name="menu-icon" maxlength="25"
-                                   value="tubiao01">
+                            <input type="text" id="menu-icon" class="form-control" name="menu-icon" maxlength="25">
                         </div>
                         <div class="help-block help-block-error"></div>
                     </div>
@@ -96,10 +94,11 @@
             success : function(data) {
                 console.log(data)
                 data=data.data;
-                $("#menu-parent_id").val(data.parentMenuId);
+                $("#menu-parent_id").val(data.parentMenuId==null?0:data.parentMenuId);
                 $("#menu-name").val(data.menuName);
                 $("#menu-url").val(data.menuUrl==null?"":data.menuUrl);
                 $("#menu-icon").val(data.pictures==null?"":data.pictures);
+                $("#menu-id").val(data.menuId);
             }
         })
     }
@@ -116,7 +115,23 @@
 			alert("请设置菜单路径");
 			return ;
 		}
-		$("#updateMenuFrom").submit();
+		var data = {};
+        data.menuId=$("#menu-id").val();
+        data.parentMenuId=$("#menu-parent_id").val();
+        data.menuName=$("#menu-name").val();
+        data.menuUrl=$("#menu-url").val();
+        data.pictures=$("#menu-icon").val();
+        $.ajax({
+            type : 'post',
+            contentType : "application/json;charset=UTF-8",
+            url : "/menu/updateMenu",
+            data : JSON.stringify(data) ,
+            success : function (data) {
+                console.log(data);
+                alert(data.msg);
+                location.href="jsp/systemSettings/menu/index.jsp";
+            }
+        })
 	}
 </script>
 </html>
